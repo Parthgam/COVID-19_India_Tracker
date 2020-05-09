@@ -1,0 +1,55 @@
+.state-table {
+  width: 100%;
+  color: #34495e;
+  border-spacing: 0px;
+}
+tr {
+  margin: 0px;
+}
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+tr:nth-child(odd) {
+  background-color: rgb(234, 237, 237, 0.7);
+}
+tr:hover {
+  background-color: rgb(234, 237, 237, 1);
+}
+
+.cases-cell {
+  text-align: right !important;
+}
+
+td {
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px;
+}
+
+.today-confirmed {
+  color: #ff073a;
+  font-size: 11px;
+}
+
+.today-recovered {
+  color: #28a745;
+  font-size: 11px;
+}
+.today-deaths {
+  color: #6c757d;
+  font-size: 11px;
+}
+
+.header-color {
+  color: #000;
+  font-size: 12px;
+  font-weight: Bold;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 1px;
+  text-align: center;
+  background-color: #e5e7e9;
+}

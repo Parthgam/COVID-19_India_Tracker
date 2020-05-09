@@ -1,0 +1,43 @@
+.live-icon {
+  animation: live-icon-blinker 0.7s cubic-bezier(0.5, 0, 1, 1) infinite
+    alternate;
+}
+
+@keyframes live-icon-blinker {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+
+.card-heading {
+  font-size: 11px;
+}
+.line-text {
+  font-size: 16px;
+}
+
+.card-style {
+  font-weight: bold;
+  font-size: 12;
+  text-align: center;
+}
+
+.card-confirmed-color {
+  color: #641e16;
+  background-image: linear-gradient(to top, #feada6 0%, #f5efef 100%);
+}
+.card-recovered-color {
+  color: #0b5345;
+  background-image: linear-gradient(to top, #abebc6 0%, #eafaf1 100%);
+}
+.card-active-color {
+  color: #154360;
+  background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+}
+.card-death-color {
+  color: #212f3d;
+  background-image: linear-gradient(to top, #ccd1d1 0%, #f2f4f4 100%);
+}

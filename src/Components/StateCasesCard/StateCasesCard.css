@@ -1,0 +1,98 @@
+.grid-box {
+  padding: 20px;
+  /* margin-top: 16px; */
+}
+
+.large-heading {
+  font-size: 18px;
+  color: #364a63;
+  font-weight: 500;
+}
+
+.heading {
+  font-size: 14px;
+  font-weight: 500;
+  color: #5e7ea9;
+}
+
+.content {
+  font-size: 12px;
+}
+
+.line-heading {
+  color: #5e7ea9;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+
+.active-dot {
+  border-radius: 3px;
+  height: 12px;
+  width: 12px;
+  background-color: #e85347;
+}
+
+.recovered-dot {
+  border-radius: 3px;
+  height: 12px;
+  width: 12px;
+  background-color: green;
+}
+
+.death-dot {
+  border-radius: 3px;
+  height: 12px;
+  width: 12px;
+  background-color: #ccd1d1;
+}
+
+.progressbar {
+  border-radius: 10px;
+}
+
+.progressbar-active {
+  height: 6px;
+  background-color: #6972d7;
+  border-radius: 100px;
+}
+
+.progressbar-recovered {
+  height: 6px;
+  background-color: #58d68d;
+  border-radius: 100px;
+}
+
+.progressbar-death {
+  height: 6px;
+  background-color: #aab7b8;
+  border-radius: 100px;
+}
+
+.margin-sm {
+  padding-bottom: 10px;
+}
+
+.margin-lg {
+  padding-bottom: 20px;
+}
+
+.confirmed-color {
+  color: #cb4335;
+}
+
+.recovered-color {
+  color: rgb(63, 180, 8);
+}
+
+.death-color {
+  color: #707b7c;
+}
+
+.active-color {
+  color: #6972d7;
+}
+
+.small-box {
+  padding: 10px;
+}
