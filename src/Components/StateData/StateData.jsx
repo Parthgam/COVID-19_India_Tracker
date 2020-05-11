@@ -84,96 +84,117 @@ export default function StateData(props) {
             setHoverIndex(index);
     }
 
-    const getSelectedStateData = async () => {
-        await axios({
-            method: 'GET',
-            url: 'https://api.covid19india.org/v2/state_district_wise.json',
-        })
-            .then((response) => {
-                setSelectedStateName(props.state);
-                setAllStateData(response.data);
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+    // const getSelectedStateData = async () => {
+    //     await axios({
+    //         method: 'GET',
+    //         url: 'https://api.covid19india.org/v2/state_district_wise.json',
+    //     })
+    //         .then((response) => {
+    //             setSelectedStateName(props.state);
+    //             setAllStateData(response.data);
+    //             console.log(response.data)
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // };
 
-    useEffect(() => {
-        setSelectedStateName(props.state);
-        getSelectedStateData();
-    }, []);
+    // useEffect(() => {
+    //     setSelectedStateName(props.state);
+    //     getSelectedStateData();
+    // }, []);
 
-    useEffect(() => {
-        setSelectedStateName(props.state);
-    }, [props.state])
+    // useEffect(() => {
+    //     setSelectedStateName(props.state);
+    // }, [props.state])
 
-    useEffect(() => {
-        if (allStateData.length !== 0) {
-            // console.log(allStateData[selectedStateName].districtData)
-            // setStateData(allStateData[selectedStateName].districtData);
-            allStateData.map((value, index) => {
-                console.log(value["state"], value["state"] === selectedStateName)
-                if (value["state"] === selectedStateName) {
-                    var temp = value.districtData;
-                    //temp.sort((a, b) => parseInt(a.confirmed) < parseInt(b.confirmed) ? 1 : -1)
-                    console.log(temp);
-                    setStateData(value.districtData);
-                    console.log(value.districtData)
-                }
-            })
+    // useEffect(() => {
+    //     if (allStateData.length !== 0) {
+    //         // console.log(allStateData[selectedStateName].districtData)
+    //         // setStateData(allStateData[selectedStateName].districtData);
+    //         allStateData.map((value, index) => {
+    //             console.log(value["state"], value["state"] === selectedStateName)
+    //             if (value["state"] === selectedStateName) {
+    //                 var temp = value.districtData;
+    //                 //temp.sort((a, b) => parseInt(a.confirmed) < parseInt(b.confirmed) ? 1 : -1)
+    //                 console.log(temp);
+    //                 setStateData(value.districtData);
+    //                 console.log(value.districtData)
+    //             }
+    //         })
 
-        }
-    }, [allStateData])
+    //     }
+    // }, [allStateData])
 
-    useEffect(() => {
-        if (allStateData.length !== 0)
-            setStateData(allStateData[selectedStateName].districtData);
-    }, [selectedStateName]);
+    // useEffect(() => {
+    //     if (allStateData.length !== 0)
+    //         setStateData(allStateData[selectedStateName].districtData);
+    // }, [selectedStateName]);
 
-    const sortAscending = (columnName) => {
-        console.log(columnName)
-        var temp = stateData;
-        setStateData(undefined)
-        temp.sort((a, b) => a[columnName] < b[columnName] ? 1 : -1)
-        console.log(temp)
-        setStateData(temp)
-    }
-
+    // const sortAscending = (columnName) => {
+    //     console.log(columnName)
+    //     var temp = stateData;
+    //     setStateData(undefined)
+    //     temp.sort((a, b) => a[columnName] < b[columnName] ? 1 : -1)
+    //     console.log(temp)
+    //     setStateData(temp)
+    // }
     return (
-        <Grid item xs={12} md={6}>
-            <Grid container direction="row"
-                justify="flex-end"
-                alignItems="flex-start" >
-                <table className="state-table">
-                    <thead>
-                        <tr>
-                            <th className="header-color">DISTRICT</th>
-                            <th className="header-color ">CONFIRMED</th>
-                            <th className="header-color ">RECOVERED</th>
-                            <th className="header-color ">DEATHS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <Grid item xs={12} md={5}>
+            {props.SelectedDistrictData !== undefined ?
+                <Grid item xs={12} md={12}>
+                    <Grid container direction="row"
+                        justify="flex-end"
+                        alignItems="flex-start" >
+                        {/* <table className="state-table">
+                            <thead>
+                                <tr>
+                                    <th className="header-color">DISTRICT</th>
+                                    <th className="header-color ">CONFIRMED</th>
+                                    <th className="header-color ">RECOVERED</th>
+                                    <th className="header-color ">DEATHS</th>
+                                    <th className="header-color ">ZONE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {console.log(props.SelectedDistrictData)}
+                                {
+                                    props.SelectedDistrictData !== undefined && props.SelectedDistrictData !== null ?
+                                        props.SelectedDistrictData.map((value, index) => {
+                                            return (
+                                                <tr>
+                                                    <td>{value.district}</td>
+                                                    <td>{value.confirmed}</td>
+                                                    <td>{value.recovered}</td>
+                                                    <td>{value.deceased}</td>
+                                                    <td>{value.zone}</td>
+                                                </tr>
+                                            )
+                                        })
+                                        :
+                                        null
+                                }
+                            </tbody>
+                        </table> */}
+                        <Grid item xs={12} md={12}>
+                            Districts
+                        </Grid>
                         {
-                            stateData !== undefined && stateData !== null ?
-                                stateData.map((value, index) => {
+                            props.SelectedDistrictData !== undefined && props.SelectedDistrictData !== null ?
+                                props.SelectedDistrictData.map((value, index) => {
                                     return (
-                                        <tr>
-                                            <td>{value.district}</td>
-                                            <td>{value.confirmed}</td>
-                                            <td>{value.recovered}</td>
-                                            <td>{value.deceased}</td>
-                                        </tr>
+                                        <Grid item xs={4} md={4}>
+                                            <strong>{value.confirmed}</strong>
+                                            <small>{value.district}</small>
+                                        </Grid>
                                     )
                                 })
-                                :
-                                null
+                                : null
                         }
-                    </tbody>
-                </table>
-            </Grid>
-            <button onClick={() => sortAscending("confirmed")} > Sort</button>
+                    </Grid>
+                </Grid>
+                :
+                null}
         </Grid>
     )
 }

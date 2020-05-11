@@ -703,7 +703,30 @@ export default function LineChart(props) {
         .call(yAxisConfirmed);
 
 
+      function make_x_gridlines() {
+        return d3.axisBottom(xConfirmed)
+          .ticks(8)
+      }
+      function make_y_gridlines() {
+        return d3.axisLeft(yConfirmed)
+          .ticks(5)
+      }
 
+      svgConfirmed.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+        )
+      svgConfirmed.append("g")
+        .attr("class", "grid")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+        )
       // Create a update selection: bind to the new data
       var u = svgConfirmed.selectAll(".lineTest")
         .data([dataConfirmed], function (d) { return d["date"] });
@@ -749,30 +772,7 @@ export default function LineChart(props) {
         .attr("stroke-width", 2)
         .attr("fill", "red")
 
-      function make_x_gridlines() {
-        return d3.axisBottom(xConfirmed)
-          .ticks(8)
-      }
-      function make_y_gridlines() {
-        return d3.axisLeft(yConfirmed)
-          .ticks(5)
-      }
 
-      svgConfirmed.append("g")
-        .attr("class", "grid")
-        .attr("transform", "translate(0," + height + ")")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_x_gridlines()
-          .tickSize(-height)
-          .tickFormat("")
-        )
-      svgConfirmed.append("g")
-        .attr("class", "grid")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_y_gridlines()
-          .tickSize(-width)
-          .tickFormat("")
-        )
     }
     else {
       var margin = { top: 10, right: 30, bottom: 30, left: 50 },
@@ -1002,6 +1002,31 @@ export default function LineChart(props) {
         .duration(500)
         .call(yAxisRecovered);
 
+      function make_x_gridlines() {
+        return d3.axisBottom(xRecovered)
+          .ticks(8)
+      }
+      function make_y_gridlines() {
+        return d3.axisLeft(yRecovered)
+          .ticks(5)
+      }
+
+      svgRecovered.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+        )
+      svgRecovered.append("g")
+        .attr("class", "grid")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+        )
+
       // Create a update selection: bind to the new data
       var u = svgRecovered.selectAll(".lineTest")
         .data([dataRecovered], function (d) { return d["date"] });
@@ -1044,30 +1069,7 @@ export default function LineChart(props) {
         .attr("stroke-width", 2)
         .attr("fill", "green")
 
-      function make_x_gridlines() {
-        return d3.axisBottom(xRecovered)
-          .ticks(8)
-      }
-      function make_y_gridlines() {
-        return d3.axisLeft(yRecovered)
-          .ticks(5)
-      }
 
-      svgRecovered.append("g")
-        .attr("class", "grid")
-        .attr("transform", "translate(0," + height + ")")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_x_gridlines()
-          .tickSize(-height)
-          .tickFormat("")
-        )
-      svgRecovered.append("g")
-        .attr("class", "grid")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_y_gridlines()
-          .tickSize(-width)
-          .tickFormat("")
-        )
     }
 
     else {
@@ -1300,6 +1302,31 @@ export default function LineChart(props) {
         .duration(500)
         .call(yAxisDeath);
 
+      function make_x_gridlines() {
+        return d3.axisBottom(xDeath)
+          .ticks(8)
+      }
+      function make_y_gridlines() {
+        return d3.axisLeft(yDeath)
+          .ticks(5)
+      }
+
+      svgDeath.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+        )
+      svgDeath.append("g")
+        .attr("class", "grid")
+        .style("stroke-dasharray", ("3,3"))
+        .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+        )
+
       // Create a update selection: bind to the new data
       var u = svgDeath.selectAll(".lineTest")
         .data([dataDeath], function (d) { return d["date"] });
@@ -1342,30 +1369,7 @@ export default function LineChart(props) {
         .attr("stroke-width", 2)
         .attr("fill", "grey")
 
-      function make_x_gridlines() {
-        return d3.axisBottom(xDeath)
-          .ticks(8)
-      }
-      function make_y_gridlines() {
-        return d3.axisLeft(yDeath)
-          .ticks(5)
-      }
 
-      svgDeath.append("g")
-        .attr("class", "grid")
-        .attr("transform", "translate(0," + height + ")")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_x_gridlines()
-          .tickSize(-height)
-          .tickFormat("")
-        )
-      svgDeath.append("g")
-        .attr("class", "grid")
-        .style("stroke-dasharray", ("3,3"))
-        .call(make_y_gridlines()
-          .tickSize(-width)
-          .tickFormat("")
-        )
     }
 
     else {
@@ -1795,7 +1799,7 @@ export default function LineChart(props) {
             <Grid container direction="row"
               justify="flex-end"
               alignItems="center">
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px', margin: '20px' }} onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button radio-btn" : "radio-btn"}>
+              <Button variant="outlined" size="medium" style={{ fontSize: '12px', margin: '10px' }} onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button radio-btn" : "radio-btn"}>
                 CUMULATIVE
             </Button>
               <Button variant="outlined" size="medium" style={{ fontSize: '12px' }} onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button radio-btn" : "radio-btn"}>

@@ -1,6 +1,13 @@
 .live-icon {
-  animation: live-icon-blinker 0.7s cubic-bezier(0.5, 0, 1, 1) infinite
-    alternate;
+  /* animation: live-icon-blinker 0.7s cubic-bezier(0.5, 0, 1, 1) infinite
+    alternate; */
+  animation: 1s ease 0s infinite normal none running shadow-pulse;
+
+  width: 6px;
+  height: 6px;
+  background-color: rgb(255, 24, 24);
+  border-radius: 50%;
+  float: left;
 }
 
 @keyframes live-icon-blinker {
@@ -9,6 +16,15 @@
   }
   to {
     opacity: 0.3;
+  }
+}
+
+@keyframes shadow-pulse {
+  from {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 0px;
+  }
+  to {
+    box-shadow: transparent 0px 0px 0px 15px;
   }
 }
 

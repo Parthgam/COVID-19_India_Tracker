@@ -3,3 +3,42 @@
   height: 200px;
   background-color: grey;
 }
+
+.border {
+  min-height: 50px;
+  border: 1px solid black;
+  /* padding:20px; */
+  margin-right: 20px;
+}
+
+.confirmed {
+  color: #ff073a
+}
+
+.recovered {
+  color: #28a745
+}
+
+.active {
+  color: #007bff
+}
+
+.death {
+  color: #6c757d
+}
+
+.line-text {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 20px !important;
+}
+.line-number-inc {
+  font-size: 13px;
+  font-weight: bold;
+  opacity: .7;
+  margin-bottom: 8px !important;
+}
+.line-number {
+  font-size: 20px;
+  font-weight: bold;
+}
