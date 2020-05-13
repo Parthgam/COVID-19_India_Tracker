@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Home from './Components/Home';
 import Header from './Components/Header/Header';
@@ -11,6 +11,17 @@ import StateDistrictData from './Components/StateDistrictData/StateDistrictData'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
+  const [totalData, setTotalData] = useState([]);
+  const [statesDaily, setStatesDaily] = useState([]);
+
+  const getTotalData = (data) => {
+    if (data !== undefined && data.length !== 0) setTotalData(data);
+  };
+
+  const getStatesDaily = (data) => {
+    if (data !== undefined && data.length !== 0) setStatesDaily(data);
+  };
+
   return (
     <Router>
       <div>
@@ -28,10 +39,20 @@ function App() {
           <Route
             exact
             path='/state/:state/:statecode'
-            component={StateDistrictData}
+            //component={StateDistrictData}
+            render={(props) => (
+              <StateDistrictData
+                TotalData={totalData}
+                StatesDaily={statesDaily}
+                {...props}
+              />
+            )}
           ></Route>
           <Route exact path='/'>
-            <Home />
+            <Home
+              totalDataHandler={getTotalData}
+              statesDailyHandler={getStatesDaily}
+            />
           </Route>
         </Switch>
         <Footer />

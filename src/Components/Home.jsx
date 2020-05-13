@@ -20,11 +20,17 @@ var DataArray = [
   },
 ];
 var res;
-export default function Home() {
+export default function Home(props) {
   const [covidData, setcovidData] = useState([{}]);
   const [totalData, setTotalData] = useState({});
   const [dataForAnalysis, setDataForAnalysis] = useState([{}]);
   const [tableData, setTableData] = useState([{}]);
+  const [statesDaily, setStatesDaily] = useState()
+
+  const getStatesDaily = (data) => {
+    if (data !== undefined && data.length !== 0) setStatesDaily(data);
+  }
+
   const fetchData = async () => {
     await axios({
       method: 'GET',
@@ -34,6 +40,8 @@ export default function Home() {
         //console.log(response.data.statewise);
         setcovidData(response.data.statewise);
         setTableData(response.data.statewise);
+        console.log(response.data.statewise)
+        props.totalDataHandler(response.data.statewise);
         //console.log(response.data.statewise[0]);
         setTotalData(response.data.statewise[0]);
         fetchDataForAnalysis(response);
@@ -58,6 +66,12 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (statesDaily !== undefined && Object.keys(statesDaily).length !== 0) {
+      props.statesDailyHandler(statesDaily)
+    }
+  }, [statesDaily]);
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -69,7 +83,7 @@ export default function Home() {
     <div className={bgColor}>
       {/* <Header></Header> */}
       <TotalCases TotalData={totalData}></TotalCases>
-      <StateTable TableData={tableData}></StateTable>
+      <StateTable TableData={tableData} StatesDailyHandler={getStatesDaily} ></StateTable>
       {/* <Footer /> */}
       {/* <Grid container>
         <Grid item xs={12}>

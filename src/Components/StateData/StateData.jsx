@@ -140,7 +140,7 @@ export default function StateData(props) {
     //     setStateData(temp)
     // }
     return (
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={12}>
             {props.SelectedDistrictData !== undefined ?
                 <Grid item xs={12} md={12}>
                     <Grid container direction="row"

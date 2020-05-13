@@ -161,6 +161,8 @@ function StateTable(props) {
           todayDeath = response.data.states_daily[response.data.states_daily.length - 1];
         //console.log({ confirmed: todayConfirmed, recovered: todayRecovered, deceased: todayDeath });
         setTodayData({ confirmed: todayConfirmed, recovered: todayRecovered, deceased: todayDeath });
+        //props.StatesDailyHandler({ confirmed: todayConfirmed, recovered: todayRecovered, deceased: todayDeath });
+        props.StatesDaily(response.data.states_daily)
       })
       .catch((error) => {
         console.log(error);

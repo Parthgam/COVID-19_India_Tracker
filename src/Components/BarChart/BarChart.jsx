@@ -3,33 +3,20 @@ import { Grid } from '@material-ui/core'
 import * as d3 from "d3";
 
 
-export default function BarChart() {
+export default function BarChart(props) {
     var data1 = [
-        { group: "A", value: 4 },
-        { group: "B", value: 16 },
-        { group: "C", value: 8 }
+        { date: "A", value: 4 },
+        { date: "B", value: 16 },
+        { date: "C", value: 8 }
     ];
 
     var data2 = [
-        { group: "A", value: 7 },
-        { group: "B", value: 1 },
-        { group: "C", value: 20 },
-        { group: "D", value: 10 }
+        { date: "A", value: 7 },
+        { date: "B", value: 1 },
+        { date: "C", value: 20 },
+        { date: "D", value: 10 }
     ];
     const drawBarChart = (data) => {
-        // create 2 data_set
-        var data1 = [
-            { group: "A", value: 4 },
-            { group: "B", value: 16 },
-            { group: "C", value: 8 }
-        ];
-
-        var data2 = [
-            { group: "A", value: 7 },
-            { group: "B", value: 1 },
-            { group: "C", value: 20 },
-            { group: "D", value: 10 }
-        ];
 
         // set the dimensions and margins of the graph
         var margin = { top: 30, right: 30, bottom: 70, left: 60 },
@@ -59,7 +46,7 @@ export default function BarChart() {
         // var yAxis = svg.append("g")
         //     .attr("class", "myYaxis")
 
-        x.domain(data.map(function (d) { return d.group; }))
+        x.domain(data.map(function (d) { return d.date; }))
         xAxis.call(d3.axisBottom(x)).call(g => g.select(".domain").remove())
         y.domain([0, d3.max(data, function (d) { return d.value })])
         // yAxis.transition().duration(1000).call(d3.axisLeft(y));
@@ -69,40 +56,15 @@ export default function BarChart() {
             .enter()
             .append("g")
 
-
-        var u = svg.selectAll("rect")
-            .data(data)
-        const arc = (r, sign) => r ? `a${r * sign[0]},${r * sign[1]} 0 0 1 ${r * sign[2]},${r * sign[3]}` : ""
         const rx = 12;
         const ry = 12;
-        //     u
-        //         .enter()
-        //         .append("rect") // Add a new rect for each new elements
-        //         .attr("class", "bar")
-        //         .merge(u) // get the already existing elements as well
-        //         .transition() // and apply changes to all of them
-        //         .duration(1000)
-        //         .attr("x", function (d) { return x(d.group); })
-        //         .attr("y", function (d) { return y(d.value); })
-        //         .attr("width", x.bandwidth())
-        //         .attr("height", function (d) { return height - y(d.value); })
-        //         .attr("fill", "#69b3a2")
-        //         .attr("d", item => `
-        //     M${x(item.group)},${y(item.value) + ry}
-        //     a${rx},${ry} 0 0 1 ${rx},${-ry}
-        //     h${x.bandwidth() - 2 * rx}
-        //     a${rx},${ry} 0 0 1 ${rx},${ry}
-        //     v${height - y(item.value) - ry}
-        //     h${-(x.bandwidth())}Z
-        //   `);
-
         svg
             .selectAll("bar")
             .data(data)
             .enter().append("path")
             .style("fill", "#69b3a2")
             .attr("d", item => `
-        M${x(item.group)},${y(item.value) + ry}
+        M${x(item.date)},${y(item.value) + ry}
         a${rx},${ry} 0 0 1 ${rx},${-ry}
         h${x.bandwidth() - 2 * rx}
         a${rx},${ry} 0 0 1 ${rx},${ry}
@@ -112,10 +74,10 @@ export default function BarChart() {
 
         xAxis.selectAll(".tick line")
             .attr("stroke-width", "0");
-        xAxis.selectAll(".tick text")
-            .attr("font-size", "20")
-            .attr("rotate", "15")
-            .attr("font-family", "cursive");
+        // xAxis.selectAll(".tick text")
+        //     .attr("font-size", "20")
+        //     .attr("rotate", "15")
+        //     .attr("font-family", "cursive");
 
         bars.append("text")
             .attr("class", "label")
@@ -125,7 +87,7 @@ export default function BarChart() {
             })
             //x position is 3 pixels to the right of the bar
             .attr("x", function (d) {
-                return x(d.group) + x.bandwidth() / 2 - 5;
+                return x(d.date) + x.bandwidth() / 2 - 5;
             })
             .text(function (d) {
                 return d.value;
@@ -135,7 +97,13 @@ export default function BarChart() {
     }
 
     useEffect(() => {
-        drawBarChart(data1);
+        console.log(props.DailyConfirmed)
+        if (props.DailyConfirmed !== undefined && props.DailyConfirmed.length !== 0)
+            drawBarChart(props.DailyConfirmed);
+    }, [props.DailyConfirmed])
+
+    useEffect(() => {
+        //drawBarChart(data1);
     }, [])
 
     return (
