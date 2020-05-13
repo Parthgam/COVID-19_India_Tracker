@@ -20,22 +20,28 @@ export default function BarChart(props) {
 
         // set the dimensions and margins of the graph
         var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+            width = 450 - margin.left - margin.right,
+            height = 250 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         var svg = d3.select("#barChart")
             .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 450 250")
+            .attr("id", "svgConfirmedCumulative")
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
+        //     .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
+        // .append("g")
+        // .attr("transform",
+        //     "translate(" + margin.left + "," + margin.top + ")");
 
         // Initialize the X axis
         var x = d3.scaleBand()
             .range([0, width])
-            .padding(0.2);
+            .padding(0.4);
         var xAxis = svg.append("g")
             .attr("transform", "translate(0," + height + ")")
 
@@ -56,8 +62,8 @@ export default function BarChart(props) {
             .enter()
             .append("g")
 
-        const rx = 12;
-        const ry = 12;
+        const rx = 6;
+        const ry = 6;
         svg
             .selectAll("bar")
             .data(data)
@@ -74,24 +80,24 @@ export default function BarChart(props) {
 
         xAxis.selectAll(".tick line")
             .attr("stroke-width", "0");
-        // xAxis.selectAll(".tick text")
-        //     .attr("font-size", "20")
-        //     .attr("rotate", "15")
-        //     .attr("font-family", "cursive");
+        xAxis.selectAll(".tick text")
+            .attr("font-size", "10px")
 
         bars.append("text")
             .attr("class", "label")
             //y position of the label is halfway down the bar
             .attr("y", function (d) {
-                return y(d.value);
+                return y(d.value) - 5;
             })
             //x position is 3 pixels to the right of the bar
             .attr("x", function (d) {
-                return x(d.date) + x.bandwidth() / 2 - 5;
+                return x(d.date) + x.bandwidth() / 2 - 7;
             })
             .text(function (d) {
                 return d.value;
             });
+        bars.selectAll(".label")
+            .attr('font-size', '10px')
 
 
     }
@@ -109,9 +115,11 @@ export default function BarChart(props) {
     return (
 
         <Grid container direction="row" justify="center" alignItems="center">
-            <button onclick="update(data1)">Variable 1</button>
-            <button onclick="update(data2)">Variable 2</button>
-            <Grid item xs={12} md={12}><div id="barChart"></div></Grid>
+            <Grid item xs={3} md={3}>
+                Last Five Days
+                Confirmed Case
+            </Grid>
+            <Grid item xs={9} md={9}><div id="barChart" style={{ border: '1px solid red' }}></div></Grid>
         </Grid>
     )
 }

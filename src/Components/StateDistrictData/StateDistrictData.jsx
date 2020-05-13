@@ -69,6 +69,7 @@ export default function StateDistrictData(props) {
     const [statesTestData, setStateTestData] = useState([])
     const [selectedStateTotal, setSelectedStateTotal] = useState({})
     const [selectedStateDaily, setSelectedStateDaily] = useState({})
+    const [weekBeforeTotal, setWeekBeforeTotal] = useState()
 
 
     function getKeyByValue(object, value) {
@@ -224,10 +225,20 @@ export default function StateDistrictData(props) {
         if (statesDaily !== undefined && statesDaily.length !== 0) {
             var length = statesDaily.length - 1;
             setSelectedStateDaily({
-                confirmedToday: statesDaily[length - 1][props.match.params.statecode],
+                confirmedToday: statesDaily[length - 2][props.match.params.statecode],
                 recoveredToday: statesDaily[length - 1][props.match.params.statecode],
                 deathsToday: statesDaily[length][props.match.params.statecode]
             })
+            //console.log(statesDaily[length - 20])
+            //setWeekBeforeDaily(statesDaily[length - 20][props.match.params.statecode])
+            var sum = 0, temp = 0;
+            for (var i = 0; i < 6; i++) {
+                sum += parseInt(statesDaily[length - 2 - temp][props.match.params.statecode])
+                console.log(statesDaily[length - 2 - temp])
+                temp += 3;
+            }
+            //console.log(sum)
+            setWeekBeforeTotal(sum);
         }
     }, [statesDaily])
 
@@ -253,7 +264,7 @@ export default function StateDistrictData(props) {
                                 alignItems="center" >
                                 <Grid item xs={6} md={6} className="border">
                                     <Grid direction="column" justify="center" alignItems="center">
-                                        <Grid xs={12} md={12} >StateName</Grid>
+                                        <Grid xs={12} md={12} >{props.match.params.state}</Grid>
                                         <Grid xs={12} md={12} >updated 16 hours ago</Grid>
                                     </Grid>
                                 </Grid>
@@ -334,26 +345,50 @@ export default function StateDistrictData(props) {
                                             Active <br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
                                             <br />
-                                            For Every 100 confirmed cases, {Math.ceil((selectedStateTotal.active / selectedStateTotal.confirmed) * 100)} are currently infected.
+                                            For Every 100 confirmed cases,
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                             are currently infected.
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4} md={4} className="border">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             Recovery Rate <br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
-                                            For Every 100 confirmed cases, {Math.ceil((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100)} have recovered from the coronavirus.
+                                            <br />
+                                            For Every 100 confirmed cases,
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                             have recovered from the coronavirus.
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4} md={4} className="border">
                                         <Grid container direction="row" justify="center" alignItems="center">
-                                            Mortality Rate
+                                            Mortality Rate<br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
-                                            For Every 100 confirmed cases, {Math.ceil((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100)} have unfortunately passed away from the coronavirus.
+                                            <br />
+                                            For Every 100 confirmed cases,
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                             have unfortunately passed away from the coronavirus.
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4} md={4} className="border">
                                         <Grid container direction="row" justify="center" alignItems="center">
-                                            five
+                                            Avg. Growth Rate <br />
+                                            {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
+                                                selectedStateTotal.length !== 0
+                                                ?
+                                                Math.ceil((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
+                                                :
+                                                null
+                                            }
+                                            In Last one week, the number of new infections has grown by an average of
+                                            {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
+                                                selectedStateTotal.length !== 0
+                                                ?
+                                                Math.ceil((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
+                                                :
+                                                null
+                                            }
+                                            every day
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={4} md={4} className="border">
