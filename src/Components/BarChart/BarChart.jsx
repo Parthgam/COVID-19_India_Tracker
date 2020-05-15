@@ -115,11 +115,8 @@ export default function BarChart(props) {
     return (
 
         <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item xs={3} md={3}>
-                Last Five Days
-                Confirmed Case
-            </Grid>
-            <Grid item xs={9} md={9}><div id="barChart" style={{ border: '1px solid red' }}></div></Grid>
+
+            <Grid item xs={12} md={12}><div id="barChart"></div></Grid>
         </Grid>
     )
 }

@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as d3 from "d3";
 import axios from 'axios';
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography, Card, CardContent } from '@material-ui/core'
 import './StateDistrictData.css'
 import StateData from '../StateData/StateData'
 import BarChart from '../BarChart/BarChart'
 import LineChart from '../Charts/LineChart'
+import Skeleton from '@material-ui/lab/Skeleton';
 import { precisionPrefix } from 'd3';
 
 
@@ -251,14 +252,14 @@ export default function StateDistrictData(props) {
 
     return (
         <Grid container>
-            <Grid item xs={1} md={1}>
-            </Grid>
-            <Grid item xs={10} md={10}>
+            <Grid item xs={12} md={12}>
                 <Grid container>
                     <Grid container direction="row"
                         justify="center"
-                        alignItems="center" >
-                        <Grid item xs={5} md={5} className="border">
+                        alignItems="center" className="total-case-grid">
+                        <Grid item xs={1} md={1}>
+                        </Grid>
+                        <Grid item xs={4} md={4} className="border">
                             <Grid container direction="row"
                                 justify="center"
                                 alignItems="center" >
@@ -275,22 +276,23 @@ export default function StateDistrictData(props) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={7} md={7}>
+                        <Grid item xs={6} md={6}>
                             <Grid container direction="row"
                                 justify="space-around"
                                 alignItems="center" >
-                                <Grid item xs={2} md={2} className="border">
-                                    <Grid container direction="column" justify="center" alignItems="center">
-                                        <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
-                                        <Grid item xs={12} md={12} className="line-number-inc confirmed">
-                                            [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.confirmedToday : null}]
+                                <Grid item xs={2} md={2} className="border selected-total-card">
+
+                                    <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
+                                    <Grid item xs={12} md={12} className="line-number-inc confirmed">
+                                        [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.confirmedToday : null}]
                                             </Grid>
-                                        <Grid item xs={12} md={12} className="line-number confirmed">
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.confirmed : null}
-                                        </Grid>
+                                    <Grid item xs={12} md={12} className="line-number confirmed">
+                                        {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.confirmed : null}
                                     </Grid>
+
                                 </Grid>
-                                <Grid item xs={2} md={2} className="border">
+                                <Grid item xs={2} md={2} className="border total-card ">
+
                                     <Grid container direction="column" justify="center" alignItems="center">
                                         <Grid item xs={12} md={12} className="line-text active">Active</Grid>
                                         <Grid item xs={12} md={12} className="line-number-inc active">
@@ -300,8 +302,10 @@ export default function StateDistrictData(props) {
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.active : null}
                                         </Grid>
                                     </Grid>
+
                                 </Grid>
-                                <Grid item xs={2} md={2} className="border">
+                                <Grid item xs={2} md={2} className="border total-card ">
+
                                     <Grid container direction="column" justify="center" alignItems="center">
                                         <Grid item xs={12} md={12} className="line-text recovered">Recovered</Grid>
                                         <Grid item xs={12} md={12} className="line-number-inc recovered">
@@ -311,8 +315,10 @@ export default function StateDistrictData(props) {
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.recovered : null}
                                         </Grid>
                                     </Grid>
+
                                 </Grid>
-                                <Grid item xs={2} md={2} className="border">
+                                <Grid item xs={2} md={2} className="border total-card ">
+
                                     <Grid container direction="column" justify="center" alignItems="center">
                                         <Grid item xs={12} md={12} className="line-text death">Death</Grid>
                                         <Grid item xs={12} md={12} className="line-number-inc death">
@@ -322,25 +328,45 @@ export default function StateDistrictData(props) {
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.deaths : null}
                                         </Grid>
                                     </Grid>
+
                                 </Grid>
                             </Grid>
                         </Grid>
-
+                        <Grid item xs={1} md={1}>
+                        </Grid>
                     </Grid>
                     <Grid item xs={12} md={12} className="body-container">
                         <Grid container direction="row" justify="center" alignItems="flex-start">
-                            <Grid item xs={5} md={5}>
-                                <BarChart DailyConfirmed={dailyConfirmed} DailyRecovered={dailyRecovered} DailyDeath={dailyDeath}></BarChart>
+                            <Grid item xs={1} md={1}>
+                            </Grid>
+                            <Grid item xs={4} md={4}>
+                                {dailyConfirmed !== undefined && dailyConfirmed.length !== 0
+                                    ?
+                                    <Grid container direction="row" justify="center" alignItems="center">
+                                        <Grid item xs={3} md={3}>
+                                            Last Five Days
+                                            Confirmed Case
+                                    </Grid>
+                                        <Grid item xs={9} md={9}>
+                                            <BarChart DailyConfirmed={dailyConfirmed} DailyRecovered={dailyRecovered} DailyDeath={dailyDeath}></BarChart>
+                                        </Grid>
+                                    </Grid>
+                                    :
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        <Skeleton animation="wave" variant="rect" height="133px" />
+                                    </Grid>
+                                }
+
                                 <StateData SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
                             </Grid>
-                            <Grid item xs={7} md={7}>
-                                <Grid container direction="row" justify="center" alignItems="center">
-                                    <Grid item xs={4} md={4} className="border">
-                                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Grid item xs={6} md={6}>
+                                <Grid container direction="row" justify="center" alignItems="center" >
+                                    <Grid item xs={4} md={4} className="border stats-card cpm">
+                                        <Grid container direction="row" justify="flex-start" alignItems="center">
                                             Confirmed Per Million
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border">
+                                    <Grid item xs={4} md={4} className="border stats-card active">
                                         <Grid container direction="row" justify="flex-start" alignItems="center">
                                             Active <br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
@@ -350,8 +376,8 @@ export default function StateDistrictData(props) {
                                              are currently infected.
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border">
-                                        <Grid container direction="row" justify="center" alignItems="center">
+                                    <Grid item xs={4} md={4} className="border stats-card recovery">
+                                        <Grid container direction="row" justify="flex-start" alignItems="center">
                                             Recovery Rate <br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
                                             <br />
@@ -360,7 +386,7 @@ export default function StateDistrictData(props) {
                                              have recovered from the coronavirus.
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border">
+                                    <Grid item xs={4} md={4} className="border stats-card mortality">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             Mortality Rate<br />
                                             {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
@@ -370,7 +396,7 @@ export default function StateDistrictData(props) {
                                              have unfortunately passed away from the coronavirus.
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border">
+                                    <Grid item xs={4} md={4} className="border stats-card agr">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             Avg. Growth Rate <br />
                                             {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
@@ -391,7 +417,7 @@ export default function StateDistrictData(props) {
                                             every day
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border">
+                                    <Grid item xs={4} md={4} className="border stats-card tpm">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             six
                                         </Grid>
@@ -403,14 +429,14 @@ export default function StateDistrictData(props) {
                                     </Grid>
                                 </Grid> */}
                             </Grid>
+                            <Grid item xs={1} md={1}>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
 
             </Grid>
-            <Grid item xs={1} md={1}>
 
-            </Grid>
         </Grid>
     )
 }

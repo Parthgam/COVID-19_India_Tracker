@@ -1,0 +1,17 @@
+.district-red-card {
+  /* border: 1px solid red; */
+  border-left: 8px solid red;
+  border-radius: 4px;
+}
+
+.district-orange-card {
+  /* border: 1px solid orange; */
+  border-left: 8px solid orange;
+  border-radius: 4px;
+}
+
+.distric-green-card {
+  /* border: 1px solid greenyellow; */
+  border-left: 8px solid greenyellow;
+  border-radius: 4px;
+}

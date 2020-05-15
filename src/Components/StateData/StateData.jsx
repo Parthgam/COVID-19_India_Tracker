@@ -3,6 +3,7 @@ import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import './StateData.css'
 
 const useStyles = makeStyles({
     root: {
@@ -146,36 +147,6 @@ export default function StateData(props) {
                     <Grid container direction="row"
                         justify="flex-end"
                         alignItems="flex-start" >
-                        {/* <table className="state-table">
-                            <thead>
-                                <tr>
-                                    <th className="header-color">DISTRICT</th>
-                                    <th className="header-color ">CONFIRMED</th>
-                                    <th className="header-color ">RECOVERED</th>
-                                    <th className="header-color ">DEATHS</th>
-                                    <th className="header-color ">ZONE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {console.log(props.SelectedDistrictData)}
-                                {
-                                    props.SelectedDistrictData !== undefined && props.SelectedDistrictData !== null ?
-                                        props.SelectedDistrictData.map((value, index) => {
-                                            return (
-                                                <tr>
-                                                    <td>{value.district}</td>
-                                                    <td>{value.confirmed}</td>
-                                                    <td>{value.recovered}</td>
-                                                    <td>{value.deceased}</td>
-                                                    <td>{value.zone}</td>
-                                                </tr>
-                                            )
-                                        })
-                                        :
-                                        null
-                                }
-                            </tbody>
-                        </table> */}
                         <Grid item xs={12} md={12}>
                             Districts
                         </Grid>
@@ -183,9 +154,16 @@ export default function StateData(props) {
                             props.SelectedDistrictData !== undefined && props.SelectedDistrictData !== null ?
                                 props.SelectedDistrictData.map((value, index) => {
                                     return (
-                                        <Grid item xs={4} md={4}>
-                                            <strong>{value.confirmed}</strong>
-                                            <small>{value.district}</small>
+                                        <Grid item xs={4} md={4} style={{ margin: '8px 0px' }}
+                                            className={
+                                                value.zone === 'Green' ? "distric-green-card" : (value.zone === 'Red' ? "district-red-card" : (value.zone === 'Orange' ? "district-orange-card" : null))
+                                            }>
+                                            <span style={{ color: '#6c757d', fontWeight: '600', fontSize: '18px', marginRight: '8px' }}>
+                                                {value.confirmed}
+                                            </span>
+                                            <span style={{ color: '#6c757d', fontWeight: '600', fontSize: '12px' }}>
+                                                {value.district}
+                                            </span>
                                         </Grid>
                                     )
                                 })
