@@ -15,32 +15,31 @@ export default function Symptoms() {
         <Grid container className="content container">
             <Grid item xs={12} md={12}>
                 <Grid container className="left-side">
-                <Grid item xs={1} md={1}></Grid>
+                    <Grid item xs={1} md={1}></Grid>
                     <Grid item xs={11} md={11} className="main-heading">
                         <div className="heading">COVID-19 Coronavirus - Symptoms</div>
                         <p>There’s currently no vaccine to prevent coronavirus disease (COVID-19).</p>
                     </Grid>
-                    </Grid>
-                    <Grid container>
+                </Grid>
+                <Grid container>
                     <Grid item xs={1} md={1}></Grid>
                     <Grid item xs={10} md={7} className="left-side">
                         <Paper variant="outlined" className="paperClass content">
-                        <Grid item xs={12} md={12}>
+                            <Grid item xs={12} md={12}>
                                 <Grid container className="important-text important-text-box">
                                     <Grid item xs={12} md={12}>
                                         <Grid container>
                                             <Grid item xs={1} md={1}>
-                                            <svg id="Capa_1" enable-background="new 0 0 512 512" height="35" viewBox="0 0 512 512" width="35" xmlns="http://www.w3.org/2000/svg"><g><path d="m256 105c-49.626 0-90 40.374-90 90v45c0 8.284 6.716 15 15 15h150c8.284 0 15-6.716 15-15v-45c0-49.626-40.374-90-90-90z" fill="#fc6581"/><path d="m346 195v45c0 8.28-6.72 15-15 15h-75v-150c49.73 0 90 40.469 90 90z" fill="#f4425c"/><circle cx="256" cy="60" fill="#fbcdbe" r="60"/><path d="m316 60c0 33.073-26.919 60-60 60v-120c33.08 0 60 26.92 60 60z" fill="#fdbbab"/><path d="" style={{fill:"none",stroke:"#000",strokeWidth:"30",strokeLinecap:"round",strokeLinejoin:"round",strokeMiterLimit:"10"}}/><path d="m226.206 360.33-47.604-47.1c-21.559-21.378-54.788-23.828-79.022-7.393-5.18 3.513-5.84 10.902-1.415 15.327l59.695 59.695c5.219 5.219 4.938 13.762-.612 18.627-5.074 4.447-12.732 4.179-17.482-.613l-63.766-64.335v-147.038c0-16.845-13.655-30.5-30.5-30.5-16.845 0-30.5 13.655-30.5 30.5v144.233c0 18.726 7.503 36.671 20.831 49.824l75.442 74.449v40.994c0 8.284 6.716 15 15 15h99.727c8.284 0 15-6.716 15-15v-101.166c0-13.334-5.326-26.115-14.794-35.504z" fill="#ffa58d"/><path d="m285.794 360.33 47.604-47.1c21.559-21.378 54.788-23.828 79.022-7.393 5.18 3.513 5.84 10.902 1.415 15.327l-59.695 59.695c-5.219 5.219-4.938 13.762.612 18.627 5.074 4.447 12.732 4.179 17.482-.613l63.766-64.335v-147.038c0-16.845 13.655-30.5 30.5-30.5 16.845 0 30.5 13.655 30.5 30.5v144.233c0 18.726-7.503 36.671-20.831 49.824l-75.442 74.449v40.994c0 8.284-6.716 15-15 15h-99.727c-8.284 0-15-6.716-15-15v-101.166c0-13.334 5.326-26.115 14.794-35.504z" fill="#f59280"/></g></svg>
+                                                <svg id="Capa_1" enable-background="new 0 0 512 512" height="35" viewBox="0 0 512 512" width="35" xmlns="http://www.w3.org/2000/svg"><g><path d="m256 105c-49.626 0-90 40.374-90 90v45c0 8.284 6.716 15 15 15h150c8.284 0 15-6.716 15-15v-45c0-49.626-40.374-90-90-90z" fill="#fc6581" /><path d="m346 195v45c0 8.28-6.72 15-15 15h-75v-150c49.73 0 90 40.469 90 90z" fill="#f4425c" /><circle cx="256" cy="60" fill="#fbcdbe" r="60" /><path d="m316 60c0 33.073-26.919 60-60 60v-120c33.08 0 60 26.92 60 60z" fill="#fdbbab" /><path d="" style={{ fill: "none", stroke: "#000", strokeWidth: "30", strokeLinecap: "round", strokeLinejoin: "round", strokeMiterLimit: "10" }} /><path d="m226.206 360.33-47.604-47.1c-21.559-21.378-54.788-23.828-79.022-7.393-5.18 3.513-5.84 10.902-1.415 15.327l59.695 59.695c5.219 5.219 4.938 13.762-.612 18.627-5.074 4.447-12.732 4.179-17.482-.613l-63.766-64.335v-147.038c0-16.845-13.655-30.5-30.5-30.5-16.845 0-30.5 13.655-30.5 30.5v144.233c0 18.726 7.503 36.671 20.831 49.824l75.442 74.449v40.994c0 8.284 6.716 15 15 15h99.727c8.284 0 15-6.716 15-15v-101.166c0-13.334-5.326-26.115-14.794-35.504z" fill="#ffa58d" /><path d="m285.794 360.33 47.604-47.1c21.559-21.378 54.788-23.828 79.022-7.393 5.18 3.513 5.84 10.902 1.415 15.327l-59.695 59.695c-5.219 5.219-4.938 13.762.612 18.627 5.074 4.447 12.732 4.179 17.482-.613l63.766-64.335v-147.038c0-16.845 13.655-30.5 30.5-30.5 16.845 0 30.5 13.655 30.5 30.5v144.233c0 18.726-7.503 36.671-20.831 49.824l-75.442 74.449v40.994c0 8.284-6.716 15-15 15h-99.727c-8.284 0-15-6.716-15-15v-101.166c0-13.334 5.326-26.115 14.794-35.504z" fill="#f59280" /></g></svg>
                                             </Grid>
                                             <Grid item xs={10} md={10}>
-                                            If you develop a fever, cough, and have difficulty breathing, promptly seek medical care.
-                                            Call in advance and tell your health provider as soon as possible for medical advice.
+                                                If you develop a fever, cough, and have difficulty breathing, promptly seek medical care.
+                                                Call in advance and tell your health provider as soon as possible for medical advice.
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                        
-                                        </Grid>
+                            </Grid>
                             <div className="largeHeading blue">Symptoms of Coronavirus
                                 </div>
                             <p>The most common symptoms of COVID-19 are fever, tiredness, and dry cough. Some patients may have aches and pains, nasal congestion, runny nose, sore throat or diarrhoea. These symptoms are usually mild and begin gradually. Also the symptoms may appear 2-14 days after exposure.</p>
@@ -91,46 +90,32 @@ export default function Symptoms() {
                                     </Grid>
                                 </Grid>
                             </Grid>
-
-
-
-
                             <div className="heading">Others Symptoms</div>
                             <p>Some patients may have aches and pains, nasal congestion, runny nose, sore throat or diarrhoea. These symptoms are usually mild & begin gradually. Some people become infected but don’t develop any symptoms & don't feel unwell. Most people (about 80%) recover from the disease without needing special treatment.
-
                             Around 1 out of every 6 people who gets COVID-19 becomes seriously ill and develops difficulty breathing. Older people, and those with underlying medical problems like high blood pressure, heart problems or diabetes, are more likely to develop serious illness.
-
-                            
-</p>
-<p>These are for informational purposes only. Consult your local medical authority for advice. (Source: World Health Organization)</p>
+                            </p>
+                            <p>These are for informational purposes only. Consult your local medical authority for advice. (Source: World Health Organization)</p>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={3} className="right-side">
-                    <div className="iframe-div">  
-                    <iframe src='https://www.youtube.com/embed/bPITHEiFWLc?list=PL9S6xGsoqIBU2V6AZYGlJwZRAFJ3YDreb'
-        frameBorder='0'
-        allow='autoplay; encrypted-media'
-        allowFullScreen
-        title='video'
-/>
-</div>
-                    <div className="blue largeHeading">Symptoms and what to do</div>
-<p className="danger-text"><strong>You must do not leave your home </strong> if you have any of <strong>coronavirus symptoms</strong> (a high temperature or a new, continuous cough) call your medical service.</p>
-
-<div className="blue heading">Stay at home to stop coronavirus spreading</div>
-<p>Everyone must stay at home to help stop the spread of coronavirus. You should only leave the house for very limited purposes:</p>
-
-
-<ul>
-    <li>Shopping for basic necessities, for example food and medicine, which must be as important.</li>
-    <li>One form of exercise a day, for example a run, walk, or cycle – alone or with members of your household</li>
-    <li>Any medical need, including to donate blood, avoid or escape risk of injury or harm, or to provide care or to help a vulnerable person.</li>
-    <li>Travelling for work purposes, but only where you cannot work from home.</li>
-</ul>
-
-
-
-
+                        <div className="iframe-div">
+                            <iframe src='https://www.youtube.com/embed/bPITHEiFWLc?list=PL9S6xGsoqIBU2V6AZYGlJwZRAFJ3YDreb'
+                                frameBorder='0'
+                                allow='autoplay; encrypted-media'
+                                allowFullScreen
+                                title='video'
+                            />
+                        </div>
+                        <div className="blue largeHeading">Symptoms and what to do</div>
+                        <p className="danger-text"><strong>You must do not leave your home </strong> if you have any of <strong>coronavirus symptoms</strong> (a high temperature or a new, continuous cough) call your medical service.</p>
+                        <div className="blue heading">Stay at home to stop coronavirus spreading</div>
+                        <p>Everyone must stay at home to help stop the spread of coronavirus. You should only leave the house for very limited purposes:</p>
+                        <ul>
+                            <li>Shopping for basic necessities, for example food and medicine, which must be as important.</li>
+                            <li>One form of exercise a day, for example a run, walk, or cycle – alone or with members of your household</li>
+                            <li>Any medical need, including to donate blood, avoid or escape risk of injury or harm, or to provide care or to help a vulnerable person.</li>
+                            <li>Travelling for work purposes, but only where you cannot work from home.</li>
+                        </ul>
                     </Grid>
                 </Grid>
             </Grid>

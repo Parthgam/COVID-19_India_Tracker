@@ -7,6 +7,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
+import * as Constants from '../constants';
 
 var StateStyle = {};
 var DataArray = [
@@ -34,15 +35,12 @@ export default function Home(props) {
   const fetchData = async () => {
     await axios({
       method: 'GET',
-      url: 'https://api.covid19india.org/data.json',
+      url: Constants.NATIONAL_LEVEL_DATA,
     })
       .then((response) => {
-        //console.log(response.data.statewise);
         setcovidData(response.data.statewise);
         setTableData(response.data.statewise);
-        console.log(response.data.statewise)
         props.totalDataHandler(response.data.statewise);
-        //console.log(response.data.statewise[0]);
         setTotalData(response.data.statewise[0]);
         fetchDataForAnalysis(response);
       })
@@ -62,7 +60,6 @@ export default function Home(props) {
         "dailyrecovered": value.dailyrecovered
       });
     });
-    //console.log(analysisData);
   };
 
   useEffect(() => {
@@ -81,17 +78,8 @@ export default function Home(props) {
 
   return (
     <div className={bgColor}>
-      {/* <Header></Header> */}
       <TotalCases TotalData={totalData}></TotalCases>
       <StateTable TableData={tableData} StatesDailyHandler={getStatesDaily} ></StateTable>
-      {/* <Footer /> */}
-      {/* <Grid container>
-        <Grid item xs={12}>
-          <StateDataList StateStyle={StateStyle} DataArray={covidData}></StateDataList>
-        </Grid>
-      </Grid> */}
-
-      {/* <DataAnalysis></DataAnalysis> */}
     </div>
   );
 }

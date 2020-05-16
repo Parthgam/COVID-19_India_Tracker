@@ -1,10 +1,8 @@
 import React from 'react';
-import { Paper, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 var DetailBoxStyle = {
@@ -55,15 +53,8 @@ const useStyles = makeStyles({
 
 export default function DetailBox(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
   return (
     <div style={DetailBoxStyle}>
-      {/* <Paper elevation={3}>
-        state :- {props.state} <br />
-        deaths :- {props.deaths} <br />
-        recovered :- {props.recovered} <br />
-        confirmed :- {props.confirmed} <br />
-      </Paper> */}
       <Card className={classes.root}>
         <CardContent>
           <Typography className={classes.title} gutterBottom>
@@ -89,22 +80,9 @@ export default function DetailBox(props) {
               </Grid>
             </Grid>
           </Typography>
-          {/* <Typography className={classes.pos} color='textSecondary'>
-            <Grid container>
-              <Grid item sm={4} xs={4} className={classes.redColor}>
-                {props.confirmed}
-              </Grid>
-              <Grid item sm={4} xs={4} className={classes.greenColor}>
-                {props.recovered}
-              </Grid>
-              <Grid item sm={4} xs={4} className={classes.greyColor}>
-                {props.deaths}
-              </Grid>
-            </Grid>
-          </Typography> */}
         </CardContent>
       </Card>
-      
+
     </div>
   );
 }

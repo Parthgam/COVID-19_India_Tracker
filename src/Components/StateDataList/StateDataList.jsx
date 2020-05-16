@@ -16,30 +16,12 @@ export default function StateDataList(props) {
                 confirmed={value.confirmed}
               />
             </Grid>) : (
-                <div></div>)
-
-
+                null)
           );
         })
       ) : (
-          <div></div>
+          null
         )}
-
-      {/* <Grid item sm={4}>
-        <DetailBox></DetailBox>
-      </Grid>
-      <Grid item sm={4}>
-        <DetailBox></DetailBox>
-      </Grid>
-      <Grid item sm={4}>
-        <DetailBox></DetailBox>
-      </Grid>
-      <Grid item sm={4}>
-        <DetailBox></DetailBox>
-      </Grid>
-      <Grid item sm={4}>
-        <DetailBox></DetailBox>
-      </Grid> */}
     </Grid>
   );
 }

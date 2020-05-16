@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Home from './Components/Home';
 import Header from './Components/Header/Header';
@@ -39,7 +39,6 @@ function App() {
           <Route
             exact
             path='/state/:state/:statecode'
-            //component={StateDistrictData}
             render={(props) => (
               <StateDistrictData
                 TotalData={totalData}

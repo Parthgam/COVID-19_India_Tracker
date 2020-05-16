@@ -105,9 +105,8 @@ export default function Prevention() {
                                         <Grid item item xs={10} md={10} className="cov-feature-content">
                                             <div className="heading">Practice respiratory hygiene</div>
                                             <p>Make sure you, & the people around you, follow good respiratory hygiene. This means covering your mouth & nose with your bent elbow or tissue when you cough or sneeze.
-<br />
+                                            <br />
                                             Why? Droplets spread virus. By following good respiratory hygiene you protect the people around you from viruses such as cold, flu and COVID-19.
-
                                             </p>
                                         </Grid>
                                     </Grid>

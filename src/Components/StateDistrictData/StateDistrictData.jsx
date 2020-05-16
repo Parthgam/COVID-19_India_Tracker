@@ -1,65 +1,20 @@
-import React, { useRef, useState, useEffect } from 'react'
-import * as d3 from "d3";
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Grid, Typography, Card, CardContent } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import './StateDistrictData.css'
 import StateData from '../StateData/StateData'
 import BarChart from '../BarChart/BarChart'
-import LineChart from '../Charts/LineChart'
 import Skeleton from '@material-ui/lab/Skeleton';
-import { precisionPrefix } from 'd3';
-
-
-
+import * as Constants from '../../constants'
 
 export default function StateDistrictData(props) {
 
-    var STATE_CODES = {
-        AP: 'Andhra Pradesh',
-        AR: 'Arunachal Pradesh',
-        AS: 'Assam',
-        BR: 'Bihar',
-        CT: 'Chhattisgarh',
-        GA: 'Goa',
-        GJ: 'Gujarat',
-        HR: 'Haryana',
-        HP: 'Himachal Pradesh',
-        JH: 'Jharkhand',
-        KA: 'Karnataka',
-        KL: 'Kerala',
-        MP: 'Madhya Pradesh',
-        MH: 'Maharashtra',
-        MN: 'Manipur',
-        ML: 'Meghalaya',
-        MZ: 'Mizoram',
-        NL: 'Nagaland',
-        OR: 'Odisha',
-        PB: 'Punjab',
-        RJ: 'Rajasthan',
-        SK: 'Sikkim',
-        TN: 'Tamil Nadu',
-        TG: 'Telangana',
-        TR: 'Tripura',
-        UT: 'Uttarakhand',
-        UP: 'Uttar Pradesh',
-        WB: 'West Bengal',
-        AN: 'Andaman and Nicobar Islands',
-        CH: 'Chandigarh',
-        DN: 'Dadra and Nagar Haveli and Daman and Diu',
-        DD: 'Daman and Diu',
-        DL: 'Delhi',
-        JK: 'Jammu and Kashmir',
-        LA: 'Ladakh',
-        LD: 'Lakshadweep',
-        PY: 'Puducherry',
-        TT: 'Total'
-    };
+    var STATE_CODES = Constants.STATE_CODES;
 
     const [zones, setZones] = useState([])
     const [stateDistrictData, setStateDistrictData] = useState([])
     const [selectedStateDistrictData, setSelectedStateDistrictData] = useState([])
     const [selectedStateDistrictData1, setSelectedStateDistrictData1] = useState([])
-
     const [selectedDistrictZones, setSelectedDistrictZones] = useState([])
     const [selectedStateName, setSelectedStateName] = useState("")
     const [statesDaily, setStatesDaily] = useState([])
@@ -72,15 +27,10 @@ export default function StateDistrictData(props) {
     const [selectedStateDaily, setSelectedStateDaily] = useState({})
     const [weekBeforeTotal, setWeekBeforeTotal] = useState()
 
-
-    function getKeyByValue(object, value) {
-        return Object.keys(object).find(key => object[key] === value);
-    }
-
     const getDistrictAndZoneData = async () => {
         await axios({
             method: 'GET',
-            url: 'https://api.covid19india.org/zones.json',
+            url: Constants.DISTRICT_LEVEL_ZONES,
         })
             .then((response) => {
                 setZones(response.data.zones);
@@ -90,11 +40,10 @@ export default function StateDistrictData(props) {
             });
         await axios({
             method: 'GET',
-            url: 'https://api.covid19india.org/v2/state_district_wise.json',
+            url: Constants.STATE_DISTRICT_WISE_V2,
         })
             .then((response) => {
                 setStateDistrictData(response.data);
-                console.log(props.match.params.state)
                 setSelectedStateName(props.match.params.state);
             })
             .catch((error) => {
@@ -105,11 +54,10 @@ export default function StateDistrictData(props) {
     const getStatesDailyData = async () => {
         await axios({
             method: 'GET',
-            url: 'https://api.covid19india.org/states_daily.json',
+            url: Constants.STATE_DAILY_CHANGES,
         })
             .then((response) => {
                 setStatesDaily(response.data.states_daily);
-                console.log(response.data.states_daily)
             })
             .catch((error) => {
                 console.log(error);
@@ -118,11 +66,10 @@ export default function StateDistrictData(props) {
     const getTotalStateData = async () => {
         await axios({
             method: 'GET',
-            url: 'https://api.covid19india.org/data.json',
+            url: Constants.NATIONAL_LEVEL_DATA,
         })
             .then((response) => {
                 setTotalData(response.data.statewise);
-                console.log(response.data.statewise)
             })
             .catch((error) => {
                 console.log(error);
@@ -131,11 +78,10 @@ export default function StateDistrictData(props) {
     const getStateTestData = async () => {
         await axios({
             method: 'GET',
-            url: '	https://api.covid19india.org/state_test_data.json',
+            url: Constants.STATE_TEST_DATA,
         })
             .then((response) => {
                 setStateTestData(response.data.states_tested_data);
-                console.log(response.data.states_tested_data)
             })
             .catch((error) => {
                 console.log(error);
@@ -144,29 +90,29 @@ export default function StateDistrictData(props) {
 
     useEffect(() => {
         if (selectedStateName !== undefined && stateDistrictData !== undefined && zones !== undefined && stateDistrictData.length !== 0 && zones.length !== 0) {
-            var temp = [];
+            var tempVar = [];
             zones.map((value, index) => {
                 if (value["state"] === selectedStateName) {
-                    temp.push(value);
+                    tempVar.push(value);
                 }
+                return null;
             })
-            setSelectedDistrictZones(temp);
-            var flag = false, count = 0;
+            setSelectedDistrictZones(tempVar);
+            var flag = false;
             stateDistrictData.map((value, index) => {
                 if (value["state"] === selectedStateName) {
                     setSelectedStateDistrictData(value.districtData);
                     flag = true;
                 }
-                else if (flag == true) {
-                    return;
+                else if (flag === true) {
+                    return null;
                 }
+                return null;
             })
-            console.log(zones)
-            console.log(selectedStateDistrictData)
         }
 
         if (statesDaily !== undefined && statesDaily.length !== 0 && selectedStateName !== undefined && selectedStateName !== "") {
-            var selectedStateCode = getKeyByValue(STATE_CODES, selectedStateName);
+            var selectedStateCode = Constants.getStateCode(STATE_CODES, selectedStateName);
             var length = statesDaily.length;
             var len_con = length - 3, len_rec = length - 2, len_dec = length - 1;
             var daily_con = [], daily_rec = [], daily_dec = [], temp = {};
@@ -182,13 +128,11 @@ export default function StateDistrictData(props) {
                 len_rec -= 3;
                 daily_rec.push(temp);
                 temp = {};
-
                 temp["value"] = statesDaily[len_dec][selectedStateCode.toLowerCase()];
                 temp["date"] = statesDaily[len_dec]["date"];
                 len_dec -= 3;
                 daily_dec.push(temp);
                 temp = {};
-
             }
             setDailyConfirmed(daily_con)
             setDailyRecovered(daily_rec)
@@ -213,10 +157,8 @@ export default function StateDistrictData(props) {
     useEffect(() => {
         if (totalData !== undefined && totalData.length !== 0) {
             totalData.map((value, index) => {
-                //console.log(value["state"], props.match.params.state, value["state"] === props.match.params.state)
                 if (value["state"] === props.match.params.state) {
                     setSelectedStateTotal(value);
-                    console.log(value)
                 }
             })
         }
@@ -230,15 +172,11 @@ export default function StateDistrictData(props) {
                 recoveredToday: statesDaily[length - 1][props.match.params.statecode],
                 deathsToday: statesDaily[length][props.match.params.statecode]
             })
-            //console.log(statesDaily[length - 20])
-            //setWeekBeforeDaily(statesDaily[length - 20][props.match.params.statecode])
             var sum = 0, temp = 0;
             for (var i = 0; i < 6; i++) {
                 sum += parseInt(statesDaily[length - 2 - temp][props.match.params.statecode])
-                console.log(statesDaily[length - 2 - temp])
                 temp += 3;
             }
-            //console.log(sum)
             setWeekBeforeTotal(sum);
         }
     }, [statesDaily])
@@ -423,20 +361,13 @@ export default function StateDistrictData(props) {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                {/* <Grid container>
-                                    <Grid item xs={6} md={6}>
-                                        <LineChart SelectedState={props.match.params.state} ></LineChart>
-                                    </Grid>
-                                </Grid> */}
                             </Grid>
                             <Grid item xs={1} md={1}>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-
             </Grid>
-
         </Grid>
     )
 }
