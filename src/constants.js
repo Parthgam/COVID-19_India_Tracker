@@ -83,6 +83,15 @@ export const getStateCode = (object, value) => {
   return Object.keys(object).find((key) => object[key] === value);
 };
 
+export const getPopulationCount = (object, value) => {
+  console.log(Object.keys(object));
+  return Object.keys(object).map((key) => {
+    console.log(key, value);
+    console.log(key === value);
+    if (key === value) return object[key];
+  });
+};
+
 export const NATIONAL_LEVEL_DATA = 'https://api.covid19india.org/data.json';
 export const STATE_DISTRICT_WISE =
   'https://api.covid19india.org/state_district_wise.json';

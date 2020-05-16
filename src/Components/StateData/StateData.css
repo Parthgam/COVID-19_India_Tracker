@@ -1,17 +1,74 @@
 .district-red-card {
-  /* border: 1px solid red; */
-  border-left: 8px solid red;
+  border: 1px solid #f5c6cb;
+  border-left: 4px solid red;
   border-radius: 4px;
+  /* background-color: rgba(255, 0, 0, 0.1); */
+  padding: 2px 5px;
 }
 
 .district-orange-card {
-  /* border: 1px solid orange; */
-  border-left: 8px solid orange;
+  border: 1px solid orange;
+  border-left: 4px solid orange;
   border-radius: 4px;
+  /* background-color: rgba(255, 165, 0, 0.1); */
+  padding: 2px 5px;
 }
 
 .distric-green-card {
-  /* border: 1px solid greenyellow; */
-  border-left: 8px solid greenyellow;
+  border: 1px solid #bcebd1;
+  border-left: 4px solid #58d68d;
   border-radius: 4px;
+  /* background-color: rgba(88, 214, 141, 0.2); */
+  padding: 2px 5px;
+}
+
+.district-null-card {
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.district-box {
+  padding: 5px 10px 5px 0px;
+}
+
+.district-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6c757d;
+  text-align: center;
+}
+.confirmed-district-heading {
+  padding-top: 20px !important;
+  margin-bottom: 20px !important;
+  font-size: 18px;
+  font-weight: 650;
+  color: #ff073a;
+  /* text-align: center; */
+}
+
+.active-district-heading {
+  /* padding-top: 20px !important; */
+  margin-bottom: 20px !important;
+  font-size: 18px;
+  font-weight: 650;
+  color: #007bff;
+  /* text-align: center; */
+}
+
+.recovered-district-heading {
+  padding-top: 20px !important;
+  margin-bottom: 20px !important;
+  font-size: 18px;
+  font-weight: 650;
+  color: #28a745;
+  /* text-align: center; */
+}
+
+.deceased-district-heading {
+  padding-top: 20px !important;
+  margin-bottom: 20px !important;
+  font-size: 18px;
+  font-weight: 650;
+  color: #6c757d;
+  /* text-align: center; */
 }

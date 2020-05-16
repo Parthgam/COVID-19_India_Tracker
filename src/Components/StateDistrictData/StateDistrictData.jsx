@@ -10,6 +10,7 @@ import * as Constants from '../../constants'
 export default function StateDistrictData(props) {
 
     var STATE_CODES = Constants.STATE_CODES;
+    var STATE_POPULATIONS = Constants.STATE_POPULATIONS;
 
     const [zones, setZones] = useState([])
     const [stateDistrictData, setStateDistrictData] = useState([])
@@ -19,13 +20,23 @@ export default function StateDistrictData(props) {
     const [selectedStateName, setSelectedStateName] = useState("")
     const [statesDaily, setStatesDaily] = useState([])
     const [dailyConfirmed, setDailyConfirmed] = useState([])
+    const [dailyActive, setDailyActive] = useState([])
     const [dailyRecovered, setDailyRecovered] = useState([])
     const [dailyDeath, setDailyDeath] = useState([])
     const [totalData, setTotalData] = useState([])
-    const [statesTestData, setStateTestData] = useState([])
+    const [statesTestData, setStatesTestData] = useState([])
     const [selectedStateTotal, setSelectedStateTotal] = useState({})
     const [selectedStateDaily, setSelectedStateDaily] = useState({})
     const [weekBeforeTotal, setWeekBeforeTotal] = useState()
+    const [selOption, setSelOption] = useState("");
+    const [prevSelOption, setPrevSelOption] = useState("");
+    const [activeClass, setActiveClass] = useState(0);
+    const [selectedTotalTested, setSelectedTotalTested] = useState(-1);
+
+    const splitDateFormatter = (date) => {
+        var arr = date.split('-', 2);
+        return arr.join(' ');
+    }
 
     const getDistrictAndZoneData = async () => {
         await axios({
@@ -81,7 +92,7 @@ export default function StateDistrictData(props) {
             url: Constants.STATE_TEST_DATA,
         })
             .then((response) => {
-                setStateTestData(response.data.states_tested_data);
+                setStatesTestData(response.data.states_tested_data);
             })
             .catch((error) => {
                 console.log(error);
@@ -115,28 +126,34 @@ export default function StateDistrictData(props) {
             var selectedStateCode = Constants.getStateCode(STATE_CODES, selectedStateName);
             var length = statesDaily.length;
             var len_con = length - 3, len_rec = length - 2, len_dec = length - 1;
-            var daily_con = [], daily_rec = [], daily_dec = [], temp = {};
+            var daily_con = [], daily_act = [], daily_rec = [], daily_dec = [], temp = {};
             var i = 0;
             for (i = 0; i < 5; i++) {
                 temp["value"] = statesDaily[len_con][selectedStateCode.toLowerCase()];
-                temp["date"] = statesDaily[len_con]["date"];
+                temp["date"] = splitDateFormatter(statesDaily[len_con]["date"]);
                 len_con -= 3;
                 daily_con.push(temp);
                 temp = {};
                 temp["value"] = statesDaily[len_rec][selectedStateCode.toLowerCase()];
-                temp["date"] = statesDaily[len_rec]["date"];
+                temp["date"] = splitDateFormatter(statesDaily[len_rec]["date"]);
                 len_rec -= 3;
                 daily_rec.push(temp);
                 temp = {};
                 temp["value"] = statesDaily[len_dec][selectedStateCode.toLowerCase()];
-                temp["date"] = statesDaily[len_dec]["date"];
+                temp["date"] = splitDateFormatter(statesDaily[len_dec]["date"]);
                 len_dec -= 3;
                 daily_dec.push(temp);
                 temp = {};
+
+                temp["value"] = parseInt(statesDaily[len_con][selectedStateCode.toLowerCase()]) - parseInt(statesDaily[len_rec][selectedStateCode.toLowerCase()]);
+                temp["date"] = splitDateFormatter(statesDaily[len_con]["date"]);
+                daily_act.push(temp);
+                temp = {};
             }
-            setDailyConfirmed(daily_con)
-            setDailyRecovered(daily_rec)
-            setDailyDeath(daily_dec)
+            setDailyConfirmed(daily_con.reverse())
+            setDailyRecovered(daily_rec.reverse())
+            setDailyDeath(daily_dec.reverse())
+            setDailyActive(daily_act.reverse())
         }
 
     }, [selectedStateName])
@@ -182,95 +199,143 @@ export default function StateDistrictData(props) {
     }, [statesDaily])
 
     useEffect(() => {
+        if (statesTestData !== undefined && statesTestData.length !== 0) {
+            var prevTemp = {}, totalTested = -1;
+            if (statesTestData[0].totaltested === "") {
+                prevTemp = {};
+            }
+            else {
+                prevTemp = statesTestData[0];
+            }
+            for (var i = 1; i < statesTestData.length - 1; i++) {
+                if (prevTemp["state"] !== undefined) {
+                    if (prevTemp["state"] !== statesTestData[i]["state"] && props.match.params.state !== undefined && prevTemp["state"] === props.match.params.state) {
+                        totalTested = prevTemp["totaltested"];
+                        break;
+                    }
+                    prevTemp = statesTestData[i];
+                }
+            }
+            if (statesTestData[statesTestData.length - 1]["state"] === props.match.params.state) {
+                totalTested = statesTestData[statesTestData.length - 1]["totaltested"];
+            }
+            setSelectedTotalTested(totalTested);
+        }
+    }, [statesTestData])
+
+    useEffect(() => {
         getDistrictAndZoneData();
         getStatesDailyData();
         getTotalStateData();
         getStateTestData();
     }, [])
 
+    const handleTotalCardClick = (option) => {
+        setPrevSelOption(selOption);
+        setSelOption(option);
+        if (option === "confirmed") setActiveClass(0);
+        else if (option === "active") setActiveClass(1);
+        else if (option === "recovered") setActiveClass(2);
+        else setActiveClass(3);
+    }
+
     return (
         <Grid container>
             <Grid item xs={12} md={12}>
                 <Grid container>
-                    <Grid container direction="row"
-                        justify="center"
-                        alignItems="center" className="total-case-grid">
-                        <Grid item xs={1} md={1}>
-                        </Grid>
-                        <Grid item xs={4} md={4} className="border">
-                            <Grid container direction="row"
-                                justify="center"
-                                alignItems="center" >
-                                <Grid item xs={6} md={6} className="border">
-                                    <Grid direction="column" justify="center" alignItems="center">
-                                        <Grid xs={12} md={12} >{props.match.params.state}</Grid>
-                                        <Grid xs={12} md={12} >updated 16 hours ago</Grid>
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs={6} md={6} className="active border">
-                                    <Grid direction="row" justify="flex-end" alignItems="center">
-                                        <Grid item style={{ textAlign: 'right' }}>Tested 212515212</Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={6} md={6}>
-                            <Grid container direction="row"
-                                justify="space-around"
-                                alignItems="center" >
-                                <Grid item xs={2} md={2} className="border selected-total-card">
 
-                                    <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
-                                    <Grid item xs={12} md={12} className="line-number-inc confirmed">
-                                        [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.confirmedToday : null}]
+                    <Grid item xs={12} md={12}>
+                        <Grid container direction="row"
+                            justify="center"
+                            alignItems="flex-start" className="total-case-grid">
+                            <Grid item xs={1} md={1}>
+                            </Grid>
+                            <Grid item xs={4} md={4} className="border">
+                                <Grid container direction="row"
+                                    justify="flex-start"
+                                    alignItems="flext-start">
+                                    <Grid item xs={5} md={5} className="border">
+                                        <Grid direction="column" justify="center" alignItems="center" className="box-left">
+                                            <Grid xs={12} md={12} className="box-left-statename">
+                                                {props.match.params.state !== undefined ? props.match.params.state : null}
                                             </Grid>
-                                    <Grid item xs={12} md={12} className="line-number confirmed">
-                                        {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.confirmed : null}
-                                    </Grid>
-
-                                </Grid>
-                                <Grid item xs={2} md={2} className="border total-card ">
-
-                                    <Grid container direction="column" justify="center" alignItems="center">
-                                        <Grid item xs={12} md={12} className="line-text active">Active</Grid>
-                                        <Grid item xs={12} md={12} className="line-number-inc active">
-                                            <br />
-                                        </Grid>
-                                        <Grid item xs={12} md={12} className="line-number active">
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.active : null}
+                                            <Grid xs={12} md={12} className="box-left-time">Last Updated On 15 May, 22:15 IST</Grid>
                                         </Grid>
                                     </Grid>
-
-                                </Grid>
-                                <Grid item xs={2} md={2} className="border total-card ">
-
-                                    <Grid container direction="column" justify="center" alignItems="center">
-                                        <Grid item xs={12} md={12} className="line-text recovered">Recovered</Grid>
-                                        <Grid item xs={12} md={12} className="line-number-inc recovered">
-                                            [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.recoveredToday : null}]
-                                        </Grid>
-                                        <Grid item xs={12} md={12} className="line-number recovered">
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.recovered : null}
-                                        </Grid>
-                                    </Grid>
-
-                                </Grid>
-                                <Grid item xs={2} md={2} className="border total-card ">
-
-                                    <Grid container direction="column" justify="center" alignItems="center">
-                                        <Grid item xs={12} md={12} className="line-text death">Death</Grid>
-                                        <Grid item xs={12} md={12} className="line-number-inc death">
-                                            [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.deathsToday : null}]
-                                        </Grid>
-                                        <Grid item xs={12} md={12} className="line-number death">
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.deaths : null}
+                                    <Grid item xs={5} md={5} className="active border">
+                                        <Grid direction="row" justify="flex-start" alignItems="center" className="box-right">
+                                            <Grid item className="box-right-test">
+                                                Tested
+                                            </Grid>
+                                            <Grid item className="box-right-testno">
+                                                {selectedTotalTested !== undefined && selectedTotalTested !== -1 ? selectedTotalTested : null}
+                                            </Grid>
+                                            <Grid item className="box-right-time">
+                                                Updated on of 16 May
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-
                                 </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={1} md={1}>
+                            <Grid item xs={6} md={6}>
+                                <Grid container direction="row"
+                                    justify="center"
+                                    alignItems="center" >
+                                    <Grid item xs={2} md={2} className={activeClass === 0 ? "selected-total-card red-total-card" : "total-card"}
+                                        onClick={() => { handleTotalCardClick("confirmed") }} >
+
+                                        <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
+                                        <Grid item xs={12} md={12} className="line-number-inc confirmed">
+                                            [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.confirmedToday : null}]
+                                            </Grid>
+                                        <Grid item xs={12} md={12} className="line-number confirmed">
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.confirmed : null}
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid item xs={2} md={2} className={activeClass === 1 ? "selected-total-card blue-total-card" : "total-card"} onClick={() => { handleTotalCardClick("active") }}>
+
+                                        <Grid container direction="column" justify="center" alignItems="center">
+                                            <Grid item xs={12} md={12} className="line-text active">Active</Grid>
+                                            <Grid item xs={12} md={12} className="line-number-inc active">
+                                                <br />
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="line-number active">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.active : null}
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid item xs={2} md={2} className={activeClass === 2 ? "selected-total-card green-total-card" : "total-card"} onClick={() => { handleTotalCardClick("recovered") }}>
+
+                                        <Grid container direction="column" justify="center" alignItems="center">
+                                            <Grid item xs={12} md={12} className="line-text recovered">Recovered</Grid>
+                                            <Grid item xs={12} md={12} className="line-number-inc recovered">
+                                                [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.recoveredToday : null}]
+                                        </Grid>
+                                            <Grid item xs={12} md={12} className="line-number recovered">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.recovered : null}
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid item xs={2} md={2} className={activeClass === 3 ? "selected-total-card grey-total-card" : "total-card"} onClick={() => { handleTotalCardClick("death") }}>
+
+                                        <Grid container direction="column" justify="center" alignItems="center">
+                                            <Grid item xs={12} md={12} className="line-text death">Death</Grid>
+                                            <Grid item xs={12} md={12} className="line-number-inc death">
+                                                [+{selectedStateDaily !== undefined && selectedStateDaily.length !== 0 ? selectedStateDaily.deathsToday : null}]
+                                        </Grid>
+                                            <Grid item xs={12} md={12} className="line-number death">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? selectedStateTotal.deaths : null}
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={1} md={1}>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={12} className="body-container">
@@ -281,12 +346,11 @@ export default function StateDistrictData(props) {
                                 {dailyConfirmed !== undefined && dailyConfirmed.length !== 0
                                     ?
                                     <Grid container direction="row" justify="center" alignItems="center">
-                                        <Grid item xs={3} md={3}>
-                                            Last Five Days
-                                            Confirmed Case
+                                        <Grid item xs={2} md={2} className="bar-chart-heading">
+                                            Last Five Days Confirmed Case
                                     </Grid>
-                                        <Grid item xs={9} md={9}>
-                                            <BarChart DailyConfirmed={dailyConfirmed} DailyRecovered={dailyRecovered} DailyDeath={dailyDeath}></BarChart>
+                                        <Grid item xs={10} md={10}>
+                                            <BarChart SelectedOption={selOption} PrevSelectedOption={prevSelOption} DailyConfirmed={dailyConfirmed} DailyRecovered={dailyRecovered} DailyDeath={dailyDeath} DailyActive={dailyActive}></BarChart>
                                         </Grid>
                                     </Grid>
                                     :
@@ -295,69 +359,111 @@ export default function StateDistrictData(props) {
                                     </Grid>
                                 }
 
-                                <StateData SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
+                                <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
                             </Grid>
                             <Grid item xs={6} md={6}>
                                 <Grid container direction="row" justify="center" alignItems="center" >
-                                    <Grid item xs={4} md={4} className="border stats-card cpm">
-                                        <Grid container direction="row" justify="flex-start" alignItems="center">
-                                            Confirmed Per Million
+                                    <Grid item xs={5} md={5} className="border stats-card-cpm">
+                                        <Grid container direction="column" justify="space-around" alignItems="flex-start">
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Confirmed Per Million
+                                                </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.confirmed / STATE_POPULATIONS[props.match.params.state]) * 1000000).toFixed(2)) : null}
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? Math.round(((selectedStateTotal.confirmed / STATE_POPULATIONS[props.match.params.state]) * 1000000).toFixed(2)) : null} &nbsp;
+                                            out of every 1 million people in {props.match.params.state} have tested positive for the virus.
+                                            </Grid>
+
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border stats-card active">
-                                        <Grid container direction="row" justify="flex-start" alignItems="center">
-                                            Active <br />
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
-                                            <br />
-                                            For Every 100 confirmed cases,
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                    <Grid item xs={5} md={5} className="border stats-card-active">
+                                        <Grid container direction="row" justify="space-between" alignItems="center">
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Active
+                                        </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+                                                For Every 100 confirmed cases,&nbsp;
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? Math.round(((selectedStateTotal.active / selectedStateTotal.confirmed) * 100).toFixed(2)) : null}&nbsp;
                                              are currently infected.
+                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border stats-card recovery">
+                                    <Grid item xs={5} md={5} className="border stats-card-recovery">
                                         <Grid container direction="row" justify="flex-start" alignItems="center">
-                                            Recovery Rate <br />
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
-                                            <br />
-                                            For Every 100 confirmed cases,
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Recovery Rate
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+                                                For Every 100 confirmed cases,&nbsp;
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? Math.round(((selectedStateTotal.recovered / selectedStateTotal.confirmed) * 100).toFixed(2)) : null}&nbsp;
                                              have recovered from the coronavirus.
+                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border stats-card mortality">
+                                    <Grid item xs={5} md={5} className="border stats-card-mortality">
                                         <Grid container direction="row" justify="center" alignItems="center">
-                                            Mortality Rate<br />
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
-                                            <br />
-                                            For Every 100 confirmed cases,
-                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Mortality Rate
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? (((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2) + "%") : null}
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+                                                For Every 100 confirmed cases,&nbsp;
+                                            {selectedStateTotal !== undefined && selectedStateTotal.length !== 0 ? Math.round(((selectedStateTotal.deaths / selectedStateTotal.confirmed) * 100).toFixed(2)) : null}&nbsp;
                                              have unfortunately passed away from the coronavirus.
+                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border stats-card agr">
+                                    <Grid item xs={5} md={5} className="border stats-card-agr">
                                         <Grid container direction="row" justify="center" alignItems="center">
-                                            Avg. Growth Rate <br />
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Avg. Growth Rate
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
+                                                    selectedStateTotal.length !== 0
+                                                    ?
+                                                    Math.round((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
+                                                    :
+                                                    null
+                                                }
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+
+                                                In Last one week, the number of new infections has grown by an average of&nbsp;
                                             {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
-                                                selectedStateTotal.length !== 0
-                                                ?
-                                                Math.ceil((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
-                                                :
-                                                null
-                                            }
-                                            In Last one week, the number of new infections has grown by an average of
-                                            {selectedStateTotal !== undefined && weekBeforeTotal !== undefined &&
-                                                selectedStateTotal.length !== 0
-                                                ?
-                                                Math.ceil((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
-                                                :
-                                                null
-                                            }
+                                                    selectedStateTotal.length !== 0
+                                                    ?
+                                                    Math.round((((weekBeforeTotal) / (selectedStateTotal.confirmed - weekBeforeTotal)) * 100) / 7) + "%"
+                                                    :
+                                                    null
+                                                }&nbsp;
                                             every day
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4} className="border stats-card tpm">
+                                    <Grid item xs={5} md={5} className="border stats-card-tpm">
                                         <Grid container direction="row" justify="center" alignItems="center">
-                                            six
+                                            <Grid item xs={12} md={12} className="title-stats-card">
+                                                Tests Per Million
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="content-stats-card">
+                                                {selectedTotalTested !== undefined && selectedTotalTested !== -1 ? Math.round(((selectedTotalTested / Constants.STATE_POPULATIONS[props.match.params.state]) * 1000000).toFixed(2)) : null}
+                                            </Grid>
+                                            <Grid item xs={12} md={12} className="caption-stats-card">
+                                                For every 1 million people in {props.match.params.state},&nbsp;
+                                            {selectedTotalTested !== undefined && selectedTotalTested !== -1 ? Math.round(((selectedTotalTested / Constants.STATE_POPULATIONS[props.match.params.state]) * 1000000).toFixed(2)) : null}&nbsp;
+                                            people were tested.
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -368,6 +474,6 @@ export default function StateDistrictData(props) {
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
