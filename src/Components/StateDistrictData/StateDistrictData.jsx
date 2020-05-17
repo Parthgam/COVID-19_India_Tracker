@@ -239,6 +239,10 @@ export default function StateDistrictData(props) {
         else setActiveClass(3);
     }
 
+    const handleClick = () => {
+        alert("HaHa")
+    }
+
     return (
         <Grid container>
             <Grid item xs={12} md={12}>
@@ -254,6 +258,14 @@ export default function StateDistrictData(props) {
                                 <Grid container direction="row"
                                     justify="flex-start"
                                     alignItems="flext-start">
+                                    <Grid item xs={12} md={12} className="breadcrumb">
+                                        Home&nbsp;&nbsp;/&nbsp;&nbsp;
+                                        <select>
+                                            {
+                                                Object.keys(Constants.STATE_CODES).map((key, index) => <option key={Constants.STATE_CODES[key]} value={Constants.STATE_CODES[key]}>{Constants.STATE_CODES[key]}</option>)
+                                            }
+                                        </select>
+                                    </Grid>
                                     <Grid item xs={5} md={5} className="border">
                                         <Grid direction="column" justify="center" alignItems="center" className="box-left">
                                             <Grid xs={12} md={12} className="box-left-statename">
@@ -359,7 +371,7 @@ export default function StateDistrictData(props) {
                                     </Grid>
                                 }
 
-                                <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
+                                <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} {...props} />
                             </Grid>
                             <Grid item xs={6} md={6}>
                                 <Grid container direction="row" justify="center" alignItems="center" >

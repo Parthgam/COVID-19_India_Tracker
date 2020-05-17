@@ -23,7 +23,7 @@ export default function BarChart(props) {
         // Initialize the X axis
         var x = d3.scaleBand()
             .range([0, width])
-            .padding(0.3);
+            .padding(0.35);
         var xAxis = svg.append("g")
             .attr("transform", "translate(0," + height + ")")
         // Initialize the Y axis

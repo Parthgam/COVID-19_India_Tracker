@@ -800,7 +800,7 @@ export default function LineChart(props) {
         d3.select("#hrLineDeath").remove();
       }
       d3.select("#my_datavizDeath").style("background-color", "#EBEDEF")
-      d3.select("#my_datavizDeath")
+      var Title = d3.select("#my_datavizDeath")
         .append("div")
         .style("opacity", 1)
         .attr("id", "titleDeath")

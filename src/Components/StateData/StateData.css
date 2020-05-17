@@ -72,3 +72,20 @@
   color: #6c757d;
   /* text-align: center; */
 }
+.district-banner-right {
+  padding-right: 12px !important;
+  color: #6c757d;
+  font-size: 12px !important;
+}
+.con-rise {
+  color: red !important;
+  font-size: 11px !important;
+}
+.rec-rise {
+  color: green !important;
+  font-size: 11px !important;
+}
+.dec-rise {
+  color: grey !important;
+  font-size: 11px !important;
+}

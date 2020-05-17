@@ -104,3 +104,5 @@ export const STATE_TEST_DATA =
 export const DISTRICT_DAILY_CHANGES =
   'https://api.covid19india.org/districts_daily.json';
 export const DISTRICT_LEVEL_ZONES = 'https://api.covid19india.org/zones.json';
+export const DISTRICT_DAILY_DATA =
+  'https://api.covid19india.org/districts_daily.json';
