@@ -11,3 +11,19 @@
     transform: rotate(360deg);
   }
 }
+
+.nav-bar-menu {
+}
+
+.nav-xs-menu {
+  display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+  .nav-bar-menu {
+    display: none !important;
+  }
+  .nav-xs-menu {
+    display: block !important;
+  }
+}

@@ -6,6 +6,7 @@ import StateData from '../StateData/StateData'
 import BarChart from '../BarChart/BarChart'
 import Skeleton from '@material-ui/lab/Skeleton';
 import * as Constants from '../../constants'
+import { useHistory } from 'react-router-dom';
 
 export default function StateDistrictData(props) {
 
@@ -32,6 +33,7 @@ export default function StateDistrictData(props) {
     const [prevSelOption, setPrevSelOption] = useState("");
     const [activeClass, setActiveClass] = useState(0);
     const [selectedTotalTested, setSelectedTotalTested] = useState(-1);
+    const [selDropdownValue, setSelDropdownValue] = useState(props.match.params.state);
 
     const splitDateFormatter = (date) => {
         var arr = date.split('-', 2);
@@ -156,7 +158,7 @@ export default function StateDistrictData(props) {
             setDailyActive(daily_act.reverse())
         }
 
-    }, [selectedStateName])
+    }, [selectedStateName, props.match.params.state])
 
     useEffect(() => {
         if (selectedDistrictZones !== undefined && selectedDistrictZones.length !== 0) {
@@ -168,8 +170,9 @@ export default function StateDistrictData(props) {
                 })
             })
             setSelectedStateDistrictData1(selectedStateDistrictData)
+            alert(props.match.params.state)
         }
-    }, [selectedDistrictZones])
+    }, [selectedDistrictZones, props.match.params.state])
 
     useEffect(() => {
         if (totalData !== undefined && totalData.length !== 0) {
@@ -179,7 +182,7 @@ export default function StateDistrictData(props) {
                 }
             })
         }
-    }, [totalData])
+    }, [totalData, props.match.params.state])
 
     useEffect(() => {
         if (statesDaily !== undefined && statesDaily.length !== 0) {
@@ -196,7 +199,7 @@ export default function StateDistrictData(props) {
             }
             setWeekBeforeTotal(sum);
         }
-    }, [statesDaily])
+    }, [statesDaily, props.match.params.state])
 
     useEffect(() => {
         if (statesTestData !== undefined && statesTestData.length !== 0) {
@@ -221,7 +224,7 @@ export default function StateDistrictData(props) {
             }
             setSelectedTotalTested(totalTested);
         }
-    }, [statesTestData])
+    }, [statesTestData, props.match.params.state])
 
     useEffect(() => {
         getDistrictAndZoneData();
@@ -242,6 +245,12 @@ export default function StateDistrictData(props) {
     const handleClick = () => {
         alert("HaHa")
     }
+    const history = useHistory();
+    const handleDropdownChange = (event) => {
+        setSelDropdownValue(event.target.value);
+        // browserHistory.push('/state/' + event.target.value + '/' + Constants.getStateCode(Constants.STATE_CODES, event.target.value).toLowerCase());
+        history.push('/state/' + event.target.value + '/' + Constants.getStateCode(Constants.STATE_CODES, event.target.value).toLowerCase());
+    }
 
     return (
         <Grid container>
@@ -260,7 +269,7 @@ export default function StateDistrictData(props) {
                                     alignItems="flext-start">
                                     <Grid item xs={12} md={12} className="breadcrumb">
                                         Home&nbsp;&nbsp;/&nbsp;&nbsp;
-                                        <select>
+                                        <select value={selDropdownValue} onChange={handleDropdownChange}>
                                             {
                                                 Object.keys(Constants.STATE_CODES).map((key, index) => <option key={Constants.STATE_CODES[key]} value={Constants.STATE_CODES[key]}>{Constants.STATE_CODES[key]}</option>)
                                             }
@@ -371,7 +380,7 @@ export default function StateDistrictData(props) {
                                     </Grid>
                                 }
 
-                                <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} {...props} />
+                                <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
                             </Grid>
                             <Grid item xs={6} md={6}>
                                 <Grid container direction="row" justify="center" alignItems="center" >

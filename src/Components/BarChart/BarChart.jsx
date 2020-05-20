@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid } from '@material-ui/core'
 import * as d3 from "d3";
 
@@ -96,30 +96,65 @@ export default function BarChart(props) {
         //     .attr("color", "#6c757d !important")
     }
 
+    const [dailyConfirmed, setDailyConfirmed] = useState()
+    const [dailyActive, setDailyActive] = useState()
+    const [dailyRecovered, setDailyRecovered] = useState()
+    const [dailyDeath, setDailyDeath] = useState()
+    const [selOption, setSelOption] = useState()
+
+    useEffect(() => {
+        if (props.DailyConfirmed !== undefined && props.DailyConfirmed.length !== 0) {
+            setDailyConfirmed(props.DailyConfirmed);
+        }
+    }, [props.DailyConfirmed])
+
+    useEffect(() => {
+        if (props.DailyActive !== undefined && props.DailyActive.length !== 0) {
+            setDailyActive(props.DailyActive);
+        }
+    }, [props.DailyActive])
+
+    useEffect(() => {
+        if (props.DailyRecovered !== undefined && props.DailyRecovered.length !== 0) {
+            setDailyRecovered(props.DailyRecovered);
+        }
+    }, [props.DailyRecovered])
+
+    useEffect(() => {
+        if (props.DailyDeath !== undefined && props.DailyDeath.length !== 0) {
+            setDailyDeath(props.DailyDeath);
+        }
+    }, [props.DailyDeath])
+
     useEffect(() => {
         if (props.SelectedOption !== undefined) {
-            if (props.SelectedOption === "confirmed" && props.DailyConfirmed !== undefined && props.DailyConfirmed.length !== 0) {
-                drawBarChart(props.DailyConfirmed, 'rgba(220, 53, 69, 0.565)', 1);
-            }
-            else if (props.SelectedOption === "recovered" && props.DailyRecovered !== undefined && props.DailyRecovered.length !== 0) {
-                drawBarChart(props.DailyRecovered, 'rgba(40, 167, 69, 0.565)', 1);
-            }
-            else if (props.SelectedOption === "death" && props.DailyDeath !== undefined && props.DailyDeath.length !== 0) {
-                drawBarChart(props.DailyDeath, 'rgba(108, 117, 125, 0.565)', 1);
-            }
-            else if (props.SelectedOption === "active" && props.DailyActive !== undefined && props.DailyActive.length !== 0) {
-                drawBarChart(props.DailyActive, 'rgba(0, 123, 255, 0.565)', 1);
-            }
+            setSelOption(props.SelectedOption)
         }
-
-        // if (props.PrevSelectedOption === "") {
-        //     drawBarChart(props.DailyConfirmed, 'red', 0);
-        // }
     }, [props.SelectedOption, props.PrevSelectedOption])
 
     useEffect(() => {
-        if (props.DailyDeath !== undefined)
-            drawBarChart(props.DailyConfirmed, "rgba(220, 53, 69, 0.565)", 0)
+        if (selOption !== undefined) {
+            if (selOption === "confirmed" && dailyConfirmed !== undefined && dailyConfirmed.length !== 0) {
+                alert("rec")
+                drawBarChart(dailyConfirmed, 'rgba(220, 53, 69, 0.565)', 1);
+            }
+            else if (selOption === "recovered" && dailyRecovered !== undefined && dailyRecovered.length !== 0) {
+                drawBarChart(dailyRecovered, 'rgba(40, 167, 69, 0.565)', 1);
+            }
+            else if (selOption === "death" && dailyDeath !== undefined && dailyDeath.length !== 0) {
+                drawBarChart(dailyDeath, 'rgba(108, 117, 125, 0.565)', 1);
+            }
+            else if (selOption === "active" && dailyActive !== undefined && dailyActive.length !== 0) {
+                drawBarChart(dailyActive, 'rgba(0, 123, 255, 0.565)', 1);
+            }
+            alert("Hello")
+        }
+        alert("hello")
+    }, [selOption, dailyConfirmed, dailyRecovered, dailyDeath, dailyActive])
+
+    useEffect(() => {
+        if (dailyConfirmed !== undefined)
+            drawBarChart(dailyConfirmed, "rgba(220, 53, 69, 0.565)", 0)
     }, [])
 
     return (

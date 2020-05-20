@@ -14,14 +14,33 @@ export default function StateData(props) {
     const [sortedDistrictData, setSortedDistrictData] = useState([]);
     const [isShowZones, setIsShowZones] = useState(false);
     const [districtDailyData, setDistrictDailyData] = useState({})
+    const [selectedOption, setSelectedOption] = useState();
+    const [selectedDistrictData, setSelectedDistrictData] = useState();
+    const [selectedDistrictZones, setSelectedDistrictZones] = useState();
+    const [selState, setSelState] = useState();
     const [mappedSelectedOption, setMappedSelectedOption] = useState();
 
+
+    useEffect(() => {
+        setSelectedDistrictData(selectedDistrictData)
+        alert("data changed dd")
+    }, [props.SelectedDistrictData])
+
+    useEffect(() => {
+        setSelectedDistrictZones(selectedDistrictZones)
+        alert("data changed zones")
+    }, [props.SelectedDistrictZones])
+
+    useEffect(() => {
+        setSelState(props.state)
+        alert("data changed url")
+    }, [props.state])
 
     useEffect(() => {
         if (props.SelectedDistrictData !== undefined && props.SelectedDistrictData.length !== 0) {
             setDistrictData(props.SelectedDistrictData);
         }
-
+        alert("data changed")
     }, [props.SelectedDistrictData])
 
     useEffect(() => {
@@ -46,35 +65,39 @@ export default function StateData(props) {
 
     useEffect(() => {
         if (districtDailyData !== undefined && Object.keys(districtDailyData).length !== 0) {
-            // console.log(districtDailyData[props.match.params.state])
+            // console.log(districtDailyData[selState])
         }
         var len;
         if (districtData !== undefined && districtData.length !== 0 && districtDailyData !== undefined && Object.keys(districtDailyData).length !== 0) {
             districtData.map((value, index) => {
-                console.log(value["district"], districtDailyData[props.match.params.state][value["district"]])
-                len = districtDailyData[props.match.params.state][value["district"]].length - 1;
+                console.log(value["district"], districtDailyData[selState][value["district"]])
+                len = districtDailyData[selState][value["district"]].length - 1;
                 console.log(len)
-                if (districtDailyData[props.match.params.state][value["district"]][len]["date"] !== "2020-05-18") {
+                if (districtDailyData[selState][value["district"]][len]["date"] !== "2020-05-18") {
                     console.log(value["district"], 0)
                 }
                 else {
-                    console.log(districtDailyData[props.match.params.state][value["district"]][len - 1]["confirmed"])
-                    console.log(districtDailyData[props.match.params.state][value["district"]][len - 2]["confirmed"])
-                    console.log(value["district"], districtDailyData[props.match.params.state][value["district"]][len - 1]["confirmed"] - districtDailyData[props.match.params.state][value["district"]][len - 2]["confirmed"])
+                    console.log(districtDailyData[selState][value["district"]][len - 1]["confirmed"])
+                    console.log(districtDailyData[selState][value["district"]][len - 2]["confirmed"])
+                    console.log(value["district"], districtDailyData[selState][value["district"]][len - 1]["confirmed"] - districtDailyData[selState][value["district"]][len - 2]["confirmed"])
                 }
             })
         }
     }, [districtDailyData])
 
     useEffect(() => {
-        if (props.SelectedOption !== undefined) {
-            if (props.SelectedOption === "recovered")
+        if (selectedOption !== undefined) {
+            if (selectedOption === "recovered")
                 setMappedSelectedOption("recovered");
-            else if (props.SelectedOption === "death")
+            else if (selectedOption === "death")
                 setMappedSelectedOption("deceased");
             else
                 setMappedSelectedOption("confirmed");
         }
+    }, [selectedOption])
+
+    useEffect(() => {
+        setSelectedOption(props.SelectedOption);
     }, [props.SelectedOption])
 
     useEffect(() => {
@@ -124,16 +147,16 @@ export default function StateData(props) {
                                                 <span style={{ color: '#6c757d', fontWeight: '600', fontSize: '12px' }}>
                                                     {value.district}
                                                 </span>
-                                                {props.SelectedOption !== "active" && districtDailyData !== undefined && Object.keys(districtDailyData).length !== 0 && mappedSelectedOption !== undefined ?
+                                                {/* {props.SelectedOption !== "active" && districtDailyData !== undefined && Object.keys(districtDailyData).length !== undefined && Object.keys(districtDailyData).length !== 0 && mappedSelectedOption !== undefined ?
 
                                                     <span className={props.SelectedOption === "death" ? "dec-rise" : (props.SelectedOption === "recovered" ? "rec-rise" : "con-rise")}>
                                                         &nbsp;
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
                                                         {
-                                                            districtDailyData[props.match.params.state][value["district"]][districtDailyData[props.match.params.state][value["district"]].length - 2][mappedSelectedOption] - districtDailyData[props.match.params.state][value["district"]][districtDailyData[props.match.params.state][value["district"]].length - 3][mappedSelectedOption]
+                                                            districtDailyData[selState][value["district"]][districtDailyData[selState][value["district"]].length - 2][mappedSelectedOption] - districtDailyData[selState][value["district"]][districtDailyData[selState][value["district"]].length - 3][mappedSelectedOption]
                                                         }
                                                     </span>
-                                                    : null}
+                                                    : null} */}
                                             </Grid>
                                         </Grid>
                                     )

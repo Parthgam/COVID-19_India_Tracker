@@ -54,7 +54,7 @@ export default function Header() {
       alignItems="center">
       <Grid item xs={1} md={1}>
       </Grid>
-      <Grid item xs={12} md={4} >
+      <Grid item xs={9} sm={5} md={4} >
         <Grid container >
           <Grid container direction="row"
             justify="flex-start"
@@ -70,11 +70,11 @@ export default function Header() {
           </Grid>
         </Grid>
       </Grid >
-      <Grid item xs={12} md={6} >
+      <Grid item xs={1} sm={5} md={6} >
         <Grid container>
           <Grid container direction="row"
             justify="flex-end"
-            alignItems="center" >
+            alignItems="center" className="nav-bar-menu">
             <Tooltip title="Symptoms" aria-label="Symptoms" placement="bottom" arrow>
               <Link to="/symptoms">
                 <Grid item className={isHover && menuItemId === 1 ? classes.hoverClass : classes.menuMargin} onMouseEnter={() => toggleHover(1)} onMouseLeave={() => toggleHover(1)}>
@@ -96,6 +96,9 @@ export default function Header() {
                 </Grid>
               </Link>
             </Tooltip>
+          </Grid>
+          <Grid item className="nav-xs-menu">
+            M
           </Grid>
         </Grid>
       </Grid >
