@@ -170,7 +170,6 @@ export default function StateDistrictData(props) {
                 })
             })
             setSelectedStateDistrictData1(selectedStateDistrictData)
-            alert(props.match.params.state)
         }
     }, [selectedDistrictZones, props.match.params.state])
 
@@ -243,7 +242,6 @@ export default function StateDistrictData(props) {
     }
 
     const handleClick = () => {
-        alert("HaHa")
     }
     const history = useHistory();
     const handleDropdownChange = (event) => {

@@ -135,7 +135,6 @@ export default function BarChart(props) {
     useEffect(() => {
         if (selOption !== undefined) {
             if (selOption === "confirmed" && dailyConfirmed !== undefined && dailyConfirmed.length !== 0) {
-                alert("rec")
                 drawBarChart(dailyConfirmed, 'rgba(220, 53, 69, 0.565)', 1);
             }
             else if (selOption === "recovered" && dailyRecovered !== undefined && dailyRecovered.length !== 0) {
@@ -147,9 +146,7 @@ export default function BarChart(props) {
             else if (selOption === "active" && dailyActive !== undefined && dailyActive.length !== 0) {
                 drawBarChart(dailyActive, 'rgba(0, 123, 255, 0.565)', 1);
             }
-            alert("Hello")
         }
-        alert("hello")
     }, [selOption, dailyConfirmed, dailyRecovered, dailyDeath, dailyActive])
 
     useEffect(() => {

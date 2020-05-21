@@ -23,24 +23,20 @@ export default function StateData(props) {
 
     useEffect(() => {
         setSelectedDistrictData(selectedDistrictData)
-        alert("data changed dd")
     }, [props.SelectedDistrictData])
 
     useEffect(() => {
         setSelectedDistrictZones(selectedDistrictZones)
-        alert("data changed zones")
     }, [props.SelectedDistrictZones])
 
     useEffect(() => {
         setSelState(props.state)
-        alert("data changed url")
     }, [props.state])
 
     useEffect(() => {
         if (props.SelectedDistrictData !== undefined && props.SelectedDistrictData.length !== 0) {
             setDistrictData(props.SelectedDistrictData);
         }
-        alert("data changed")
     }, [props.SelectedDistrictData])
 
     useEffect(() => {
