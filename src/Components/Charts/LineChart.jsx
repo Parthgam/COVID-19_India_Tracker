@@ -1010,15 +1010,19 @@ export default function LineChart(props) {
       if (selectedStateName === prevSelectedStateName) {
         if (stateWiseDailyConfirmed.length !== 0) {
           var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-          selectedStateCode = selectedStateCode.toLowerCase();
-          update1(stateWiseDailyConfirmed, selectedStateCode);
-          setPrevSelectedStateName(selectedStateName);
+          if (selectedStateCode !== undefined) {
+            selectedStateCode = selectedStateCode.toLowerCase();
+            update1(stateWiseDailyConfirmed, selectedStateCode);
+            setPrevSelectedStateName(selectedStateName);
+          }
         }
       }
       else {
         var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-        selectedStateCode = selectedStateCode.toLowerCase();
-        update1(stateWiseDailyConfirmed, selectedStateCode, 1);
+        if (selectedStateCode !== undefined) {
+          selectedStateCode = selectedStateCode.toLowerCase();
+          update1(stateWiseDailyConfirmed, selectedStateCode, 1);
+        }
       }
     }
   }, [stateWiseDailyConfirmed, selectedStateName, chartDataType])
@@ -1027,14 +1031,19 @@ export default function LineChart(props) {
     if (selectedStateName === prevSelectedStateName) {
       if (stateWiseDailyRecovered.length !== 0) {
         var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-        selectedStateCode = selectedStateCode.toLowerCase(); update2(stateWiseDailyRecovered, stateWiseDailyConfirmed, selectedStateCode);
-        setPrevSelectedStateName(selectedStateName);
+        if (selectedStateCode !== undefined) {
+          selectedStateCode = selectedStateCode.toLowerCase();
+          update2(stateWiseDailyRecovered, stateWiseDailyConfirmed, selectedStateCode);
+          setPrevSelectedStateName(selectedStateName);
+        }
       }
     }
     else {
       var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-      selectedStateCode = selectedStateCode.toLowerCase();
-      update2(stateWiseDailyRecovered, stateWiseDailyConfirmed, selectedStateCode, 1);
+      if (selectedStateCode !== undefined) {
+        selectedStateCode = selectedStateCode.toLowerCase();
+        update2(stateWiseDailyRecovered, stateWiseDailyConfirmed, selectedStateCode, 1);
+      }
     }
   }, [stateWiseDailyRecovered, selectedStateName, chartDataType])
 
@@ -1042,14 +1051,18 @@ export default function LineChart(props) {
     if (selectedStateName === prevSelectedStateName) {
       if (stateWiseDailyDeath.length !== 0) {
         var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-        selectedStateCode = selectedStateCode.toLowerCase(); update3(stateWiseDailyDeath, stateWiseDailyConfirmed, selectedStateCode);
-        setPrevSelectedStateName(selectedStateName);
+        if (selectedStateCode !== undefined) {
+          selectedStateCode = selectedStateCode.toLowerCase(); update3(stateWiseDailyDeath, stateWiseDailyConfirmed, selectedStateCode);
+          setPrevSelectedStateName(selectedStateName);
+        }
       }
     }
     else {
       var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-      selectedStateCode = selectedStateCode.toLowerCase();
-      update3(stateWiseDailyDeath, stateWiseDailyConfirmed, selectedStateCode, 1);
+      if (selectedStateCode !== undefined) {
+        selectedStateCode = selectedStateCode.toLowerCase();
+        update3(stateWiseDailyDeath, stateWiseDailyConfirmed, selectedStateCode, 1);
+      }
     }
   }, [stateWiseDailyDeath, selectedStateName, chartDataType])
 
@@ -1060,7 +1073,9 @@ export default function LineChart(props) {
   useEffect(() => {
     setSelectedStateName(props.SelectedState);
     var selectedStateCode = Constants.getStateCode(STATE_CODES, props.SelectedState);
-    selectedStateCode = selectedStateCode.toLowerCase();
+    if (selectedStateCode !== undefined) {
+      selectedStateCode = selectedStateCode.toLowerCase();
+    }
   }, [selectedStateName])
 
   const handleRadioChange = (event) => {
