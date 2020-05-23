@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import StateDataList from './StateDataList/StateDataList';
 import StateTable from './StateTable/StateTable';
 import TotalCases from './TotalCases/TotalCases';
-import DataAnalysis from './DataAnalysis/DataAnalysis';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import { Grid } from '@material-ui/core';
