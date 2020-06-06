@@ -7,6 +7,8 @@ import StateCasesCard from '../StateCasesCard/StateCasesCard';
 import axios from 'axios';
 import './StateTable.css'
 import * as Constants from '../../constants'
+import LinkSvg from './link.svg'
+import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -185,7 +187,12 @@ function StateTable(props) {
                   return (
                     <tr key={index} onClick={() => onSelectRow(value)} onMouseEnter={() => onHover(value, true, index)}
                       onMouseLeave={() => onHover(value, false, index)} >
-                      <td style={{ width: '30%' }}>{value.state}</td>
+                      <td style={{ width: '30%' }}>
+                        {value.state}
+                        <Link to={`/state/${value.state}/${value.statecode}`} style={{ color: 'blue', textDecoration: 'none' }}>
+                          <img src={LinkSvg} alt="" style={{ float: 'right' }} />
+                        </Link>
+                      </td>
                       <td className="cases-cell">
                         {value.statecode !== undefined && todayData.confirmed[value.statecode.toLowerCase()] !== "0" ? (<span className="today-confirmed">
                           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>

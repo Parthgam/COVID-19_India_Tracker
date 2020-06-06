@@ -30,7 +30,7 @@ export default function StateCasesCard(props) {
                                 <Grid item xs={6} md={6}>
                                     <Grid container direction="row" justify="flex-end" alignItems="center" style={{ fontSize: '11px' }}>
                                         {props.state.toLowerCase() !== "total" && props.state !== undefined ?
-                                            <Link to={`/state/${props.state}/${props.statecode.toLowerCase()}`} style={{ color: 'black', textDecoration: 'none' }}>
+                                            <Link to={`/state/${props.state}/${props.statecode.toLowerCase()}`} style={{ color: 'blue', textDecoration: 'none' }}>
                                                 View More...
                                             </Link>
                                             : null
