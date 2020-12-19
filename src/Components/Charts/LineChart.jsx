@@ -72,15 +72,29 @@ export default function LineChart(props) {
       .text(function (d) { return d.value; })
       .attr("value", function (d) { return d.key; })
   }
-
+  var formatSuffixDecimal2 = d3.format(".2s");
   function update1(dataConfirmedRaw, selectedGroup, updateAgain = 0) {
     var margin = { top: 10, right: 30, bottom: 30, left: 50 },
       width = 500 - margin.left - margin.right,
       height = 200 - margin.top - margin.bottom;
     if (chartDataType !== undefined && chartDataType === "cumulative") {
       var dataConfirmed = dataConfirmedRaw.map(function (d) {
-        return { date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
+        return { date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
       })
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataConfirmed = dataConfirmed.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        });
+        
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataConfirmed = dataConfirmed.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        })
+      }
+      console.log(dataConfirmed)
       if (updateAgain === 1) {
         d3.select("#svgConfirmedCumulative").remove();
         d3.select("#titleConfirmed").remove();
@@ -120,7 +134,6 @@ export default function LineChart(props) {
         .append("g")
         .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
-
       // Initialise a X axis:
       var xConfirmed = d3.scaleTime().range([0, width]);
       var xAxisConfirmed = d3.axisBottom().scale(xConfirmed);
@@ -134,7 +147,7 @@ export default function LineChart(props) {
       var yAxisConfirmed = d3.axisLeft().scale(yConfirmed);
       svgConfirmed.append("g")
         .attr("class", "myYaxisConfirmed")
-      yAxisConfirmed.ticks(5)
+      yAxisConfirmed.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
 
       // Create the X axis:
       xConfirmed.domain(d3.extent(dataConfirmed, function (d) { return (d["date"]) }));
@@ -189,7 +202,7 @@ export default function LineChart(props) {
           .y(function (d) { return yConfirmed(d.selectedGroup) }))
         .attr("fill", "none")
         .attr("stroke", "red")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
       svgConfirmed.selectAll(".domain")
         .attr("stroke", "red")
@@ -209,18 +222,30 @@ export default function LineChart(props) {
         .attr("class", "myCircle")
         .attr("cx", function (d) { return xConfirmed(d["date"]) })
         .attr("cy", function (d) { return yConfirmed(d.selectedGroup) })
-        .attr("r", 2)
+        .attr("r", 1.5)
         .attr("stroke", "red")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "red")
     }
     else {
       var dataDaily = [];
       stateWiseDaily.map(function (d) {
         if (d["status"] === "Confirmed")
-          dataDaily.push({ date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
+          dataDaily.push({ date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
         return null;
       })
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        })
+      }
 
       if (updateAgain === 1) {
         d3.select("#svgConfirmedDaily").remove();
@@ -279,7 +304,7 @@ export default function LineChart(props) {
       var yAxisDailyConfirmed = d3.axisLeft().scale(yDailyConfirmed);
       svgDailyConfirmed.append("g")
         .attr("class", "myDailyConfirmedYAxis")
-      yAxisDailyConfirmed.ticks(5)
+      yAxisDailyConfirmed.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
       yDailyConfirmed.domain([0, d3.max(dataDaily, (d) => (d.value))])
       svgDailyConfirmed.selectAll(".myDailyConfirmedYAxis")
         .transition()
@@ -323,7 +348,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "red")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
       svgDailyConfirmed.selectAll(".domain")
         .attr("stroke", "red")
@@ -340,7 +365,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyConfirmed(d["date"]); })
         .attr("cy", function (d) { return yDailyConfirmed(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "red")
         .attr("stroke", "red")
     }
@@ -353,11 +378,23 @@ export default function LineChart(props) {
       height = 200 - margin.top - margin.bottom;
     if (chartDataType !== undefined && chartDataType === "cumulative") {
       var dataRecovered = dataRecoveredRaw.map(function (d) {
-        return { date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
+        return { date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
       })
       var dataConfirmed = dataConfirmedRaw.map(function (d) {
-        return { date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
+        return { date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
       })
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataRecovered = dataRecovered.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataRecovered = dataRecovered.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      }
       if (updateAgain === 1) {
         d3.select("#svgRecoveredCumulative").remove();
         d3.select("#titleRecovered").remove();
@@ -411,7 +448,7 @@ export default function LineChart(props) {
       var yAxisRecovered = d3.axisLeft().scale(yRecovered);
       svgRecovered.append("g")
         .attr("class", "myYaxisRecovered")
-      yAxisRecovered.ticks(5)
+      yAxisRecovered.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
       // Create the X axis:
       xRecovered.domain(d3.extent(dataRecovered, function (d) { return (d["date"]) }));
       svgRecovered.selectAll(".myXaxisRecovered").transition()
@@ -461,7 +498,7 @@ export default function LineChart(props) {
         .merge(u)
         .transition()
         .duration(500)
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("d", d3.line()
           .x(function (d) { return xRecovered((d["date"])); })
           .y(function (d) { return yRecovered(d.selectedGroup) }))
@@ -487,22 +524,34 @@ export default function LineChart(props) {
         .attr("cy", function (d) { return yRecovered(d.selectedGroup) })
         .attr("r", 2)
         .attr("stroke", "green")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "green")
     }
     else {
       var dataDaily = [], dataDailyConfirmed = [];
       stateWiseDaily.map(function (d) {
         if (d["status"] === "Recovered")
-          dataDaily.push({ date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
+          dataDaily.push({ date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
         return null;
       })
 
       stateWiseDaily.map(function (d) {
         if (d["status"] === "Confirmed")
-          dataDailyConfirmed.push({ date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
+          dataDailyConfirmed.push({ date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
         return null;
       })
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      }
 
       if (updateAgain === 1) {
         d3.select("#svgRecoveredDaily").remove();
@@ -558,7 +607,7 @@ export default function LineChart(props) {
       var yAxisDailyRecovered = d3.axisLeft().scale(yDailyRecovered);
       svgDailyRecovered.append("g")
         .attr("class", "myYaxis")
-      yAxisDailyRecovered.ticks(5)
+      yAxisDailyRecovered.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
       yDailyRecovered.domain([0, d3.max(dataDailyConfirmed, (d) => (d.value))])
       svgDailyRecovered.selectAll(".myYaxis")
         .transition()
@@ -602,7 +651,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "green")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDailyRecovered.selectAll(".domain")
@@ -621,7 +670,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyRecovered(d["date"]); })
         .attr("cy", function (d) { return yDailyRecovered(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "green")
         .attr("stroke", "green")
     }
@@ -634,12 +683,24 @@ export default function LineChart(props) {
     if (chartDataType !== undefined && chartDataType === "cumulative") {
 
       var dataDeath = dataDeathRaw.map(function (d) {
-        return { date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
+        return { date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
       })
       var dataConfirmed = dataConfirmedRaw.map(function (d) {
-        return { date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
+        return { date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) }
       })
-
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataDeath = dataDeath.filter((d) => {
+          console.log(d)
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataDeath = dataDeath.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      }
       if (updateAgain === 1) {
         d3.select("#svgDeathCumulative").remove();
         d3.select("#titleDeath").remove();
@@ -692,7 +753,7 @@ export default function LineChart(props) {
       var yAxisDeath = d3.axisLeft().scale(yDeath);
       svgDeath.append("g")
         .attr("class", "myYaxisDeath")
-      yAxisDeath.ticks(5)
+      yAxisDeath.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
 
       // Create the X axis:
       xDeath.domain(d3.extent(dataDeath, function (d) { return (d["date"]) }));
@@ -749,7 +810,7 @@ export default function LineChart(props) {
           .y(function (d) { return yDeath(d.selectedGroup) }))
         .attr("fill", "none")
         .attr("stroke", "grey")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDeath.selectAll(".domain")
@@ -769,25 +830,36 @@ export default function LineChart(props) {
         .attr("class", "myCircle")
         .attr("cx", function (d) { return xDeath(d["date"]) })
         .attr("cy", function (d) { return yDeath(d.selectedGroup) })
-        .attr("r", 2)
+        .attr("r", 1.5)
         .attr("stroke", "grey")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "grey")
     }
     else {
       var dataDaily = [], dataDailyConfirmed = [];
       stateWiseDaily.map(function (d) {
         if (d["status"] === "Deceased")
-          dataDaily.push({ date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
+          dataDaily.push({ date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
         return null;
       })
 
       stateWiseDaily.map(function (d) {
         if (d["status"] === "Confirmed")
-          dataDailyConfirmed.push({ date: d3.timeParse("%d-%b-%Y")(d["date"]), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
+          dataDailyConfirmed.push({ date: d3.timeParse("%d-%b-%y")(d["date"].toLowerCase().replace('sept', 'sep')), selectedGroup: d[selectedGroup], value: parseInt(d[selectedGroup]) })
         return null;
       })
-
+      var cutoffdate = new Date();
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime()
+        })
+      }
       if (updateAgain === 1) {
         d3.select("#svgDeathDaily").remove();
         d3.select("#titleDeath").remove();
@@ -843,7 +915,7 @@ export default function LineChart(props) {
       var yAxisDailyDeath = d3.axisLeft().scale(yDailyDeath);
       svgDailyDeath.append("g")
         .attr("class", "myYaxis")
-      yAxisDailyDeath.ticks(5)
+      yAxisDailyDeath.ticks(5).tickFormat((d) => { return formatSuffixDecimal2(d)})
       yDailyDeath.domain([0, d3.max(dataDailyConfirmed, (d) => (d.value))])
       svgDailyDeath.selectAll(".myYaxis")
         .transition()
@@ -887,7 +959,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "grey")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDailyDeath.selectAll(".domain")
@@ -906,7 +978,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyDeath(d["date"]); })
         .attr("cy", function (d) { return yDailyDeath(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "grey")
         .attr("stroke", "grey")
     }
@@ -920,6 +992,8 @@ export default function LineChart(props) {
   const [chartDataType, setChartDataType] = useState("cumulative");
   const [prevChartDataType, setPrevChartDataType] = useState();
   const [activeChartClass, setActiveChartClass] = useState(0); // 0 for Cumulative and 1 for daily
+  const [activeTimeRangeClass, setActiveTimeRangeClass] = useState(2); // 0 for Cumulative and 1 for daily
+  const [timeRange, setTimeRange] = useState(2);
 
   const getDailyStatewiseCases = async () => {
     await axios({
@@ -1025,7 +1099,7 @@ export default function LineChart(props) {
         }
       }
     }
-  }, [stateWiseDailyConfirmed, selectedStateName, chartDataType])
+  }, [stateWiseDailyConfirmed, selectedStateName, chartDataType, timeRange])
 
   useEffect(() => {
     if (selectedStateName === prevSelectedStateName) {
@@ -1045,7 +1119,7 @@ export default function LineChart(props) {
         update2(stateWiseDailyRecovered, stateWiseDailyConfirmed, selectedStateCode, 1);
       }
     }
-  }, [stateWiseDailyRecovered, selectedStateName, chartDataType])
+  }, [stateWiseDailyRecovered, selectedStateName, chartDataType, timeRange])
 
   useEffect(() => {
     if (selectedStateName === prevSelectedStateName) {
@@ -1064,7 +1138,7 @@ export default function LineChart(props) {
         update3(stateWiseDailyDeath, stateWiseDailyConfirmed, selectedStateCode, 1);
       }
     }
-  }, [stateWiseDailyDeath, selectedStateName, chartDataType])
+  }, [stateWiseDailyDeath, selectedStateName, chartDataType, timeRange])
 
   useEffect(() => {
     setSelectedStateName(props.SelectedState);
@@ -1100,6 +1174,11 @@ export default function LineChart(props) {
     setActiveChartClass(0)
   }
 
+  const handleTimeRangeClick = (option) => {
+    setTimeRange(option);
+    setActiveTimeRangeClass(option);
+  }
+
   const handleDailyClick = () => {
     setPrevChartDataType("cumulative")
     setChartDataType("daily")
@@ -1114,22 +1193,38 @@ export default function LineChart(props) {
         <Grid container direction="row"
           justify="center"
           alignItems="center" className={classes.marginClass}>
-          <Grid item xs={4} md={4}>
+          {/* <Grid item xs={4} md={4}>
             <select id="selectBox" className="select-css" onChange={handleDropdownChange}>
             </select>
-          </Grid>
+          </Grid> */}
           <Grid item xs={8} md={8}>
+            <Grid container direction="row"
+              justify="flex-center"
+              alignItems="center">
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(0)} className={activeTimeRangeClass === 0 ? "active-button custom-btn" : "custom-btn"}>
+                Beginning
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(1)} className={activeTimeRangeClass === 1 ? "active-button custom-btn" : "custom-btn"}>
+                2 Months
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-button custom-btn" : "custom-btn"}>
+                1 Months
+              </button>
+            </Grid>
+          </Grid>
+          <Grid item xs={4} md={4}>
             <Grid container direction="row"
               justify="flex-end"
               alignItems="center">
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px', margin: '10px' }} onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button radio-btn" : "radio-btn"}>
-                CUMULATIVE
-            </Button>
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px' }} onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button radio-btn" : "radio-btn"}>
-                DAILY
-              </Button>
+              <button class="custom-btn" variant="outlined" size="small" onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button custom-btn" : "custom-btn"}>
+                Cumulative
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button custom-btn" : "custom-btn"}>
+                Daily
+              </button>
             </Grid>
           </Grid>
+          
         </Grid>
       </Grid>
       <Grid item xs={10} md={10}><div id="my_datavizConfirmed" className={classes.marginClass}></div></Grid>
