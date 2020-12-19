@@ -112,11 +112,25 @@
   background: #ddd;
 }
 
-.active-button {
-  background-color: rgb(234, 250, 241) !important;
-  border: 2px solid rgba(88, 214, 141, 0.6) !important;
-}
-
 .radio-btn {
   margin-left: 20px;
+}
+.custom-btn {
+  font-size: 12px !important;
+  background-color: #fff;
+  border: 1px solid #D4EFDF;
+  background-color: #EAFAF1;
+  padding: 5px 10px;
+  color: #5D6D7E;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.custom-btn:hover {
+  cursor: pointer;
+}
+
+.active-button {
+  background-color: #ABEBC6 !important;
+  border: 2px solid rgba(88, 214, 141, 0.6) !important;
+  cursor: default !important;
 }

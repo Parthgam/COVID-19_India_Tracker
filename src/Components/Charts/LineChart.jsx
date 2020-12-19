@@ -86,7 +86,8 @@ export default function LineChart(props) {
         cutoffdate.setDate(cutoffdate.getDate() - 60);
         dataConfirmed = dataConfirmed.filter((d) => {
           return d.date.getTime() > cutoffdate.getTime();
-        })
+        });
+        
       } else if(timeRange == 2) {
         cutoffdate.setDate(cutoffdate.getDate() - 30);
         dataConfirmed = dataConfirmed.filter((d) => {
@@ -201,7 +202,7 @@ export default function LineChart(props) {
           .y(function (d) { return yConfirmed(d.selectedGroup) }))
         .attr("fill", "none")
         .attr("stroke", "red")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
       svgConfirmed.selectAll(".domain")
         .attr("stroke", "red")
@@ -221,9 +222,9 @@ export default function LineChart(props) {
         .attr("class", "myCircle")
         .attr("cx", function (d) { return xConfirmed(d["date"]) })
         .attr("cy", function (d) { return yConfirmed(d.selectedGroup) })
-        .attr("r", 0.2)
+        .attr("r", 1.5)
         .attr("stroke", "red")
-        .attr("stroke-width", 0.2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "red")
     }
     else {
@@ -234,17 +235,17 @@ export default function LineChart(props) {
         return null;
       })
       var cutoffdate = new Date();
-      // if(timeRange == 1) {
-      //   cutoffdate.setDate(cutoffdate.getDate() - 60);
-      //   dataDaily = dataDaily.filter((d) => {
-      //     return d.date.getDate() > cutoffdate
-      //   })
-      // } else if(timeRange == 2) {
-      //   cutoffdate.setDate(cutoffdate.getDate() - 30);
-      //   dataDaily = dataDaily.filter((d) => {
-      //     return d.date.getDate() > cutoffdate
-      //   })
-      // }
+      if(timeRange == 1) {
+        cutoffdate.setDate(cutoffdate.getDate() - 60);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        })
+      } else if(timeRange == 2) {
+        cutoffdate.setDate(cutoffdate.getDate() - 30);
+        dataDaily = dataDaily.filter((d) => {
+          return d.date.getTime() > cutoffdate.getTime();
+        })
+      }
 
       if (updateAgain === 1) {
         d3.select("#svgConfirmedDaily").remove();
@@ -347,7 +348,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "red")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
       svgDailyConfirmed.selectAll(".domain")
         .attr("stroke", "red")
@@ -364,7 +365,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyConfirmed(d["date"]); })
         .attr("cy", function (d) { return yDailyConfirmed(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "red")
         .attr("stroke", "red")
     }
@@ -497,7 +498,7 @@ export default function LineChart(props) {
         .merge(u)
         .transition()
         .duration(500)
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("d", d3.line()
           .x(function (d) { return xRecovered((d["date"])); })
           .y(function (d) { return yRecovered(d.selectedGroup) }))
@@ -523,7 +524,7 @@ export default function LineChart(props) {
         .attr("cy", function (d) { return yRecovered(d.selectedGroup) })
         .attr("r", 2)
         .attr("stroke", "green")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "green")
     }
     else {
@@ -650,7 +651,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "green")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDailyRecovered.selectAll(".domain")
@@ -669,7 +670,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyRecovered(d["date"]); })
         .attr("cy", function (d) { return yDailyRecovered(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "green")
         .attr("stroke", "green")
     }
@@ -809,7 +810,7 @@ export default function LineChart(props) {
           .y(function (d) { return yDeath(d.selectedGroup) }))
         .attr("fill", "none")
         .attr("stroke", "grey")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDeath.selectAll(".domain")
@@ -829,9 +830,9 @@ export default function LineChart(props) {
         .attr("class", "myCircle")
         .attr("cx", function (d) { return xDeath(d["date"]) })
         .attr("cy", function (d) { return yDeath(d.selectedGroup) })
-        .attr("r", 2)
+        .attr("r", 1.5)
         .attr("stroke", "grey")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1.5)
         .attr("fill", "grey")
     }
     else {
@@ -958,7 +959,7 @@ export default function LineChart(props) {
         .attr("stroke", "grey")
         .attr("fill", "none")
         .attr("stroke", "grey")
-        .attr("stroke-width", 4)
+        .attr("stroke-width", 2.5)
         .attr("opacity", "0.5")
 
       svgDailyDeath.selectAll(".domain")
@@ -977,7 +978,7 @@ export default function LineChart(props) {
         .append("circle")
         .attr("cx", function (d) { return xDailyDeath(d["date"]); })
         .attr("cy", function (d) { return yDailyDeath(d.selectedGroup); })
-        .attr("r", "2.5")
+        .attr("r", "1.5")
         .style("fill", "grey")
         .attr("stroke", "grey")
     }
@@ -991,8 +992,8 @@ export default function LineChart(props) {
   const [chartDataType, setChartDataType] = useState("cumulative");
   const [prevChartDataType, setPrevChartDataType] = useState();
   const [activeChartClass, setActiveChartClass] = useState(0); // 0 for Cumulative and 1 for daily
-  const [activeTimeRangeClass, setActiveTimeRangeClass] = useState(0); // 0 for Cumulative and 1 for daily
-  const [timeRange, setTimeRange] = useState(1);
+  const [activeTimeRangeClass, setActiveTimeRangeClass] = useState(2); // 0 for Cumulative and 1 for daily
+  const [timeRange, setTimeRange] = useState(2);
 
   const getDailyStatewiseCases = async () => {
     await axios({
@@ -1192,37 +1193,38 @@ export default function LineChart(props) {
         <Grid container direction="row"
           justify="center"
           alignItems="center" className={classes.marginClass}>
-          <Grid item xs={4} md={4}>
+          {/* <Grid item xs={4} md={4}>
             <select id="selectBox" className="select-css" onChange={handleDropdownChange}>
             </select>
-          </Grid>
+          </Grid> */}
           <Grid item xs={8} md={8}>
             <Grid container direction="row"
-              justify="flex-end"
+              justify="flex-center"
               alignItems="center">
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px', margin: '10px' }} onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button radio-btn" : "radio-btn"}>
-                CUMULATIVE
-            </Button>
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px' }} onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button radio-btn" : "radio-btn"}>
-                DAILY
-              </Button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(0)} className={activeTimeRangeClass === 0 ? "active-button custom-btn" : "custom-btn"}>
+                Beginning
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(1)} className={activeTimeRangeClass === 1 ? "active-button custom-btn" : "custom-btn"}>
+                2 Months
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-button custom-btn" : "custom-btn"}>
+                1 Months
+              </button>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={4} md={4}>
             <Grid container direction="row"
               justify="flex-end"
               alignItems="center">
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px', margin: '10px' }} onClick={() => handleTimeRangeClick(0)} className={activeTimeRangeClass === 0 ? "active-button radio-btn" : "radio-btn"}>
-                Beginning
-              </Button>
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px' }} onClick={() => handleTimeRangeClick(1)} className={activeTimeRangeClass === 1 ? "active-button radio-btn" : "radio-btn"}>
-                2 Months
-              </Button>
-              <Button variant="outlined" size="medium" style={{ fontSize: '12px' }} onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-button radio-btn" : "radio-btn"}>
-                1 Months
-              </Button>
+              <button class="custom-btn" variant="outlined" size="small" onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button custom-btn" : "custom-btn"}>
+                Cumulative
+              </button>
+              <button class="custom-btn" variant="outlined" size="small"onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button custom-btn" : "custom-btn"}>
+                Daily
+              </button>
             </Grid>
           </Grid>
+          
         </Grid>
       </Grid>
       <Grid item xs={10} md={10}><div id="my_datavizConfirmed" className={classes.marginClass}></div></Grid>
