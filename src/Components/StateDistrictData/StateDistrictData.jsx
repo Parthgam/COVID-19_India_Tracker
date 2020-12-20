@@ -261,11 +261,11 @@ export default function StateDistrictData(props) {
                             alignItems="flex-start" className="total-case-grid">
                             <Grid item xs={1} md={1}>
                             </Grid>
-                            <Grid item xs={4} md={4} className="border">
+                            <Grid item xs={10} md={4} className="border">
                                 <Grid container direction="row"
                                     justify="flex-start"
                                     alignItems="flext-start">
-                                    <Grid item xs={12} md={12} className="breadcrumb">
+                                    <Grid item xs={10} md={12} className="breadcrumb">
                                         Home&nbsp;&nbsp;/&nbsp;&nbsp;
                                         <select value={selDropdownValue} onChange={handleDropdownChange}>
                                             {
@@ -273,7 +273,7 @@ export default function StateDistrictData(props) {
                                             }
                                         </select>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border">
+                                    <Grid item xs={10} md={5} className="border">
                                         <Grid direction="column" justify="center" alignItems="center" className="box-left">
                                             <Grid xs={12} md={12} className="box-left-statename">
                                                 {props.match.params.state !== undefined ? props.match.params.state : null}
@@ -281,7 +281,7 @@ export default function StateDistrictData(props) {
                                             <Grid xs={12} md={12} className="box-left-time">Last Updated On 15 May, 22:15 IST</Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="active border">
+                                    {/* <Grid item xs={10} md={5} className="active border">
                                         <Grid direction="row" justify="flex-start" alignItems="center" className="box-right">
                                             <Grid item className="box-right-test">
                                                 Tested
@@ -293,14 +293,14 @@ export default function StateDistrictData(props) {
                                                 Updated on of 16 May
                                             </Grid>
                                         </Grid>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </Grid>
-                            <Grid item xs={6} md={6}>
+                            <Grid item xs={10} md={6}>
                                 <Grid container direction="row"
                                     justify="center"
                                     alignItems="center" >
-                                    <Grid item xs={2} md={2} className={activeClass === 0 ? "selected-total-card red-total-card" : "total-card"}
+                                    <Grid item xs={5} md={2} className={activeClass === 0 ? "selected-total-card red-total-card" : "total-card"}
                                         onClick={() => { handleTotalCardClick("confirmed") }} >
 
                                         <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
@@ -312,7 +312,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={2} md={2} className={activeClass === 1 ? "selected-total-card blue-total-card" : "total-card"} onClick={() => { handleTotalCardClick("active") }}>
+                                    <Grid item xs={5} md={2} className={activeClass === 1 ? "selected-total-card blue-total-card" : "total-card"} onClick={() => { handleTotalCardClick("active") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text active">Active</Grid>
@@ -325,7 +325,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={2} md={2} className={activeClass === 2 ? "selected-total-card green-total-card" : "total-card"} onClick={() => { handleTotalCardClick("recovered") }}>
+                                    <Grid item xs={5} md={2} className={activeClass === 2 ? "selected-total-card green-total-card" : "total-card"} onClick={() => { handleTotalCardClick("recovered") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text recovered">Recovered</Grid>
@@ -338,7 +338,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={2} md={2} className={activeClass === 3 ? "selected-total-card grey-total-card" : "total-card"} onClick={() => { handleTotalCardClick("death") }}>
+                                    <Grid item xs={5} md={2} className={activeClass === 3 ? "selected-total-card grey-total-card" : "total-card"} onClick={() => { handleTotalCardClick("death") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text death">Death</Grid>
@@ -361,14 +361,14 @@ export default function StateDistrictData(props) {
                         <Grid container direction="row" justify="center" alignItems="flex-start">
                             <Grid item xs={1} md={1}>
                             </Grid>
-                            <Grid item xs={4} md={4}>
-                                {dailyConfirmed !== undefined && dailyConfirmed.length !== 0
+                            <Grid item xs={10} md={4}>
+                                {/* {dailyConfirmed !== undefined && dailyConfirmed.length !== 0
                                     ?
                                     <Grid container direction="row" justify="center" alignItems="center">
-                                        <Grid item xs={2} md={2} className="bar-chart-heading">
+                                        <Grid item xs={12} md={2} className="bar-chart-heading">
                                             Last Five Days Confirmed Case
                                     </Grid>
-                                        <Grid item xs={10} md={10}>
+                                        <Grid item xs={12} md={10}>
                                             <BarChart SelectedOption={selOption} PrevSelectedOption={prevSelOption} DailyConfirmed={dailyConfirmed} DailyRecovered={dailyRecovered} DailyDeath={dailyDeath} DailyActive={dailyActive}></BarChart>
                                         </Grid>
                                     </Grid>
@@ -376,13 +376,13 @@ export default function StateDistrictData(props) {
                                     <Grid item xs={12} sm={12} md={12}>
                                         <Skeleton animation="wave" variant="rect" height="133px" />
                                     </Grid>
-                                }
+                                } */}
 
                                 <StateData SelectedOption={selOption} SelectedDistrictData={selectedStateDistrictData1} SelectedDistrictZones={selectedDistrictZones} state={props.match.params.state} />
                             </Grid>
-                            <Grid item xs={6} md={6}>
+                            <Grid item xs={10} md={6}>
                                 <Grid container direction="row" justify="center" alignItems="center" >
-                                    <Grid item xs={5} md={5} className="border stats-card-cpm">
+                                    <Grid item xs={11} md={5} className="border stats-card-cpm">
                                         <Grid container direction="column" justify="space-around" alignItems="flex-start">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Confirmed Per Million
@@ -397,7 +397,7 @@ export default function StateDistrictData(props) {
 
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border stats-card-active">
+                                    <Grid item xs={11} md={5} className="border stats-card-active">
                                         <Grid container direction="row" justify="space-between" alignItems="center">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Active
@@ -412,7 +412,7 @@ export default function StateDistrictData(props) {
                                              </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border stats-card-recovery">
+                                    <Grid item xs={11} md={5} className="border stats-card-recovery">
                                         <Grid container direction="row" justify="flex-start" alignItems="center">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Recovery Rate
@@ -427,7 +427,7 @@ export default function StateDistrictData(props) {
                                              </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border stats-card-mortality">
+                                    <Grid item xs={11} md={5} className="border stats-card-mortality">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Mortality Rate
@@ -442,7 +442,7 @@ export default function StateDistrictData(props) {
                                              </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border stats-card-agr">
+                                    <Grid item xs={11} md={5} className="border stats-card-agr">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Avg. Growth Rate
@@ -470,7 +470,7 @@ export default function StateDistrictData(props) {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5} md={5} className="border stats-card-tpm">
+                                    <Grid item xs={11} md={5} className="border stats-card-tpm">
                                         <Grid container direction="row" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="title-stats-card">
                                                 Tests Per Million

@@ -115,22 +115,46 @@
 .radio-btn {
   margin-left: 20px;
 }
-.custom-btn {
+.custom-green-btn {
   font-size: 12px !important;
   background-color: #fff;
   border: 1px solid #D4EFDF;
   background-color: #EAFAF1;
-  padding: 5px 10px;
-  color: #5D6D7E;
+  padding: 8px 15px;
+  color: #229954;
   outline: none !important;
   box-shadow: none !important;
 }
-.custom-btn:hover {
+.custom-green-btn:hover {
   cursor: pointer;
 }
 
-.active-button {
+.active-green-button {
   background-color: #ABEBC6 !important;
   border: 2px solid rgba(88, 214, 141, 0.6) !important;
   cursor: default !important;
+}
+
+.custom-yellow-btn {
+  font-size: 12px !important;
+  background-color: #fff;
+  border: 1px solid #FCF3CF;
+  background-color: #FEF9E7;
+  padding: 8px 15px;
+  color: #D68910;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.custom-yellow-btn:hover {
+  cursor: pointer;
+}
+
+.active-yellow-button {
+  background-color: #F9E79F  !important;
+  border: 2px solid #F4D03F !important;
+  cursor: default !important;
+}
+
+.btn-margin {
+  margin: 5px 0px !important;
 }

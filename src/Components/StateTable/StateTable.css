@@ -2,7 +2,10 @@
   width: 100%;
   color: #34495e;
   border-spacing: 0px;
-  margin: 20px;
+  padding-bottom: 20px !important;
+}
+.padding-class {
+  padding: 0 10px 20px 10px !important;
 }
 tr {
   margin: 0px;

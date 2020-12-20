@@ -164,8 +164,8 @@ function StateTable(props) {
     })
   }
   return (
-    <Grid container className={classes.marginClass}>
-      <Grid item sm={1} xs={1} >
+    <Grid container className={classes.marginClass} >
+      <Grid item md={1} >
       </Grid>
       <Grid item xs={12} md={5}>
         <Grid container direction="row"
@@ -194,25 +194,30 @@ function StateTable(props) {
                         </Link>
                       </td>
                       <td className="cases-cell">
+                        {value.confirmed}
+                        {/* <br/>
                         {value.statecode !== undefined && todayData.confirmed[value.statecode.toLowerCase()] !== "0" ? (<span className="today-confirmed">
                           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
                           {value.statecode !== undefined && todayData.confirmed[value.statecode.toLowerCase()] !== "0" ? todayData.confirmed[value.statecode.toLowerCase()] : null}
-                      &nbsp;&nbsp;</span>) : null}
-                        {value.confirmed}
+                        &nbsp;&nbsp;</span>) : null} */}
                       </td>
                       <td className="cases-cell"> {value.active} </td>
                       <td className="cases-cell">
+                        {value.recovered}
+                        {/* <br/>
                         {value.statecode !== undefined && todayData.recovered[value.statecode.toLowerCase()] !== "0" ? (<span className="today-recovered">
                           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
                           {value.statecode !== undefined && todayData.recovered[value.statecode.toLowerCase()] !== "0" ? todayData.recovered[value.statecode.toLowerCase()] : null}
-                      &nbsp;&nbsp;</span>) : null}
-                        {value.recovered} </td>
+                      &nbsp;&nbsp;</span>) : null} */}
+                      </td>
                       <td className="cases-cell">
+                        {value.deaths}
+                        {/* <br/>
                         {value.statecode !== undefined && todayData.deceased[value.statecode.toLowerCase()] !== "0" ? (<span className="today-deaths">
                           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
                           {value.statecode !== undefined && todayData.deceased[value.statecode.toLowerCase()] !== "0" ? todayData.deceased[value.statecode.toLowerCase()] : null}
-                      &nbsp;&nbsp;</span>) : null}
-                        {value.deaths} </td>
+                      &nbsp;&nbsp;</span>) : null} */}
+                      </td>
                     </tr>
                   )
                 }
@@ -222,7 +227,7 @@ function StateTable(props) {
           </table>
         </Grid>
       </Grid>
-
+      
       {isRowSelected || isHovered ? <Grid item xs={12} md={5}>
         <Grid container className={classes.rightSide}>
           <Grid item xs={12} md={12}>
@@ -263,6 +268,8 @@ function StateTable(props) {
             </Grid>
             : null
         )}
+        <Grid item md={1} >
+      </Grid>
     </Grid>
   )
 }

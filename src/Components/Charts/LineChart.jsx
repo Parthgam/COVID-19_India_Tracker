@@ -1197,30 +1197,30 @@ export default function LineChart(props) {
             <select id="selectBox" className="select-css" onChange={handleDropdownChange}>
             </select>
           </Grid> */}
-          <Grid item xs={8} md={8}>
-            <Grid container direction="row"
-              justify="flex-center"
-              alignItems="center">
-              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(0)} className={activeTimeRangeClass === 0 ? "active-button custom-btn" : "custom-btn"}>
-                Beginning
-              </button>
-              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(1)} className={activeTimeRangeClass === 1 ? "active-button custom-btn" : "custom-btn"}>
-                2 Months
-              </button>
-              <button class="custom-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-button custom-btn" : "custom-btn"}>
-                1 Months
-              </button>
-            </Grid>
-          </Grid>
-          <Grid item xs={4} md={4}>
+          <Grid item xs={12} md={12} className="btn-margin">
             <Grid container direction="row"
               justify="flex-end"
               alignItems="center">
-              <button class="custom-btn" variant="outlined" size="small" onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-button custom-btn" : "custom-btn"}>
+              <button class="custom-green-btn" variant="outlined" size="small" onClick={handleCumulativeClick} className={activeChartClass === 0 ? "active-green-button custom-green-btn" : "custom-green-btn"}>
                 Cumulative
               </button>
-              <button class="custom-btn" variant="outlined" size="small"onClick={handleDailyClick} className={activeChartClass === 1 ? "active-button custom-btn" : "custom-btn"}>
+              <button class="custom-green-btn" variant="outlined" size="small"onClick={handleDailyClick} className={activeChartClass === 1 ? "active-green-button custom-green-btn" : "custom-green-btn"}>
                 Daily
+              </button>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={12} className="btn-margin">
+            <Grid container direction="row"
+              justify="flex-end"
+              alignItems="center">
+              <button class="custom-yellow-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(0)} className={activeTimeRangeClass === 0 ? "active-yellow-button custom-yellow-btn" : "custom-yellow-btn"}>
+                Beginning
+              </button>
+              <button class="custom-yellow-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(1)} className={activeTimeRangeClass === 1 ? "active-yellow-button custom-yellow-btn" : "custom-yellow-btn"}>
+                2 Months
+              </button>
+              <button class="custom-yellow-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-yellow-button custom-yellow-btn" : "custom-yellow-btn"}>
+                1 Months
               </button>
             </Grid>
           </Grid>
