@@ -12,7 +12,7 @@ import * as Constants from '../../constants'
 export default function StateData(props) {
     const [districtData, setDistrictData] = useState([]);
     const [sortedDistrictData, setSortedDistrictData] = useState([]);
-    const [isShowZones, setIsShowZones] = useState(false);
+    const [isShowZones, setIsShowZones] = useState(true);
     const [districtDailyData, setDistrictDailyData] = useState({})
     const [selectedOption, setSelectedOption] = useState();
     const [selectedDistrictData, setSelectedDistrictData] = useState();
@@ -114,7 +114,7 @@ export default function StateData(props) {
                     <Grid item className="district-banner-right">
                         <FormGroup aria-label="position" row>
                             <FormControlLabel
-                                value="Show Zones"
+                                value="isShowZones"
                                 control={<Switch color="primary" size="small" onChange={toggleChecked} />}
                                 label="Show Zones"
                                 labelPlacement="start"
@@ -132,7 +132,7 @@ export default function StateData(props) {
                             sortedDistrictData !== undefined && sortedDistrictData !== null && props.SelectedOption !== undefined ?
                                 sortedDistrictData.map((value, index) => {
                                     return (
-                                        <Grid item xs={4} md={4} className="district-box">
+                                        <Grid item xs={6} md={4} className="district-box">
                                             <Grid item xs={12} md={12} style={{ margin: '8px 0px' }}
                                                 className={
                                                     isShowZones ? (value.zone === 'Green' ? "distric-green-card" : (value.zone === 'Red' ? "district-red-card" : (value.zone === 'Orange' ? "district-orange-card" : "district-null-card"))) : null
