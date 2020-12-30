@@ -4,6 +4,8 @@
   border-radius: 4px;
   /* background-color: rgba(255, 0, 0, 0.1); */
   padding: 2px 5px;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .district-orange-card {
@@ -12,6 +14,8 @@
   border-radius: 4px;
   /* background-color: rgba(255, 165, 0, 0.1); */
   padding: 2px 5px;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .distric-green-card {
@@ -20,11 +24,17 @@
   border-radius: 4px;
   /* background-color: rgba(88, 214, 141, 0.2); */
   padding: 2px 5px;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .district-null-card {
+  border: 1px solid #00000033;
+  border-left: 6px solid #00000033;
   border-radius: 4px;
   padding: 2px 5px;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .district-box {

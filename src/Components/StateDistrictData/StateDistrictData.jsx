@@ -266,14 +266,16 @@ export default function StateDistrictData(props) {
                                     justify="flex-start"
                                     alignItems="flext-start">
                                     <Grid item xs={10} md={12} className="breadcrumb">
-                                        Home&nbsp;&nbsp;/&nbsp;&nbsp;
-                                        <select value={selDropdownValue} onChange={handleDropdownChange}>
+                                        Home
+                                        &nbsp;&nbsp;/&nbsp;&nbsp;
+                                        {/* <select value={selDropdownValue} onChange={handleDropdownChange}>
                                             {
                                                 Object.keys(Constants.STATE_CODES).map((key, index) => <option key={Constants.STATE_CODES[key]} value={Constants.STATE_CODES[key]}>{Constants.STATE_CODES[key]}</option>)
                                             }
-                                        </select>
+                                        </select> */}
+                                        { selDropdownValue}
                                     </Grid>
-                                    <Grid item xs={10} md={5} className="border">
+                                    <Grid item xs={10} md={12} className="border">
                                         <Grid direction="column" justify="center" alignItems="center" className="box-left">
                                             <Grid xs={12} md={12} className="box-left-statename">
                                                 {props.match.params.state !== undefined ? props.match.params.state : null}
@@ -300,7 +302,7 @@ export default function StateDistrictData(props) {
                                 <Grid container direction="row"
                                     justify="center"
                                     alignItems="center" >
-                                    <Grid item xs={5} md={2} className={activeClass === 0 ? "selected-total-card red-total-card" : "total-card"}
+                                    <Grid item xs={5} md={2} className={activeClass != -1 ? "selected-total-card red-total-card" : "total-card"}
                                         onClick={() => { handleTotalCardClick("confirmed") }} >
 
                                         <Grid item xs={12} md={12} className="line-text confirmed">Confirmed</Grid>
@@ -312,7 +314,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={5} md={2} className={activeClass === 1 ? "selected-total-card blue-total-card" : "total-card"} onClick={() => { handleTotalCardClick("active") }}>
+                                    <Grid item xs={5} md={2} className={activeClass != -1 ? "selected-total-card blue-total-card" : "total-card"} onClick={() => { handleTotalCardClick("active") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text active">Active</Grid>
@@ -325,7 +327,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={5} md={2} className={activeClass === 2 ? "selected-total-card green-total-card" : "total-card"} onClick={() => { handleTotalCardClick("recovered") }}>
+                                    <Grid item xs={5} md={2} className={activeClass != -1 ? "selected-total-card green-total-card" : "total-card"} onClick={() => { handleTotalCardClick("recovered") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text recovered">Recovered</Grid>
@@ -338,7 +340,7 @@ export default function StateDistrictData(props) {
                                         </Grid>
 
                                     </Grid>
-                                    <Grid item xs={5} md={2} className={activeClass === 3 ? "selected-total-card grey-total-card" : "total-card"} onClick={() => { handleTotalCardClick("death") }}>
+                                    <Grid item xs={5} md={2} className={activeClass != -1 ? "selected-total-card grey-total-card" : "total-card"} onClick={() => { handleTotalCardClick("death") }}>
 
                                         <Grid container direction="column" justify="center" alignItems="center">
                                             <Grid item xs={12} md={12} className="line-text death">Death</Grid>

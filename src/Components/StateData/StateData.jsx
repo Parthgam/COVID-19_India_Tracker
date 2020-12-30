@@ -8,6 +8,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios'
 import * as Constants from '../../constants'
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default function StateData(props) {
     const [districtData, setDistrictData] = useState([]);
@@ -111,7 +113,7 @@ export default function StateData(props) {
                     <Grid item>
                         DISTRICTS
                     </Grid>
-                    <Grid item className="district-banner-right">
+                    {/* <Grid item className="district-banner-right">
                         <FormGroup aria-label="position" row>
                             <FormControlLabel
                                 value="isShowZones"
@@ -120,7 +122,7 @@ export default function StateData(props) {
                                 labelPlacement="start"
                             />
                         </FormGroup>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Grid>
             {sortedDistrictData !== undefined && sortedDistrictData.length !== 0 ?

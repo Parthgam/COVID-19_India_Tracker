@@ -1220,7 +1220,7 @@ export default function LineChart(props) {
                 2 Months
               </button>
               <button class="custom-yellow-btn" variant="outlined" size="small"onClick={() => handleTimeRangeClick(2)} className={activeTimeRangeClass === 2 ? "active-yellow-button custom-yellow-btn" : "custom-yellow-btn"}>
-                1 Months
+                1 Month
               </button>
             </Grid>
           </Grid>

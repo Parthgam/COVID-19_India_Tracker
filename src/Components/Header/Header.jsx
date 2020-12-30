@@ -8,6 +8,16 @@ import Prevention from '../Prevention/Prevention';
 import Symptoms from '../Symptoms/Symptoms';
 import Faq from '../Faq/Faq';
 import './Header.css';
+import clsx from 'clsx';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 var classes = {
@@ -37,10 +47,18 @@ const useStyles = makeStyles({
     border: '1px solid #D6EAF8',
     padding: '2px',
     borderRadius: '5px'
-  }
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
 })
 
 export default function Header() {
+
+
   var classes = useStyles();
   const [isHover, setIsHover] = useState(false)
   const [menuItemId, setMenuItemId] = useState(-1)
@@ -48,6 +66,40 @@ export default function Header() {
     setIsHover(!isHover)
     setMenuItemId(id)
   }
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {[ { text: 'Home', link: '/'}, { text:'Symptoms', link: '/symptoms'}, { text: 'Prevention', link: '/prevention'}].map((item, index) => (
+          <ListItem button key={item.text} component={Link} to={item.link}>
+            <ListItemText primary={item.text} />
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
+
   return (
     <Grid container className={classes.headerClass} direction="row"
       justify="flex-start"
@@ -75,6 +127,25 @@ export default function Header() {
           <Grid container direction="row"
             justify="flex-end"
             alignItems="center" className="nav-bar-menu">
+            <Tooltip title="Home" aria-label="Home" placement="bottom" arrow>
+              <Link to="/">
+                <Grid item className={isHover && menuItemId === 0 ? classes.hoverClass : classes.menuMargin} onMouseEnter={() => toggleHover(0)} onMouseLeave={() => toggleHover(1)}>
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25 12.5C25 19.4036 19.4036 25 12.5 25C5.59635 25 0 19.4036 0 12.5C0 5.59635 5.59635 0 12.5 0C19.4036 0 25 5.59635 25 12.5Z" fill="url(#paint0_linear)"/>
+                    <path d="M21.707 10.878L14.036 3.1565C14.0263 3.14658 14.0162 3.13704 14.0057 3.1277C13.1695 2.37696 11.9059 2.3741 11.0667 3.12159C11.0562 3.13075 11.0461 3.14028 11.0364 3.1502L3.29538 10.8757C3.00908 11.1614 3.00851 11.6253 3.29442 11.9116C3.58014 12.1979 4.04382 12.1983 4.33011 11.9126L4.92082 11.323V17.6888C4.92082 19.3104 6.24032 20.6297 7.86195 20.6297H10.5122C10.9168 20.6297 11.2446 20.3018 11.2446 19.8973V13.8935H13.8291V19.8973C13.8291 20.3018 14.157 20.6297 14.5615 20.6297H17.1381C18.7598 20.6297 20.0793 19.3104 20.0793 17.6888C20.0793 17.2842 19.7512 16.9564 19.3469 16.9564C18.9423 16.9564 18.6144 17.2842 18.6144 17.6888C18.6144 18.5026 17.952 19.1649 17.1381 19.1649H15.2939V13.1611C15.2939 12.7566 14.9661 12.4287 14.5615 12.4287H10.5122C10.1079 12.4287 9.77979 12.7566 9.77979 13.1611V19.1649H7.86195C7.04789 19.1649 6.38566 18.5026 6.38566 17.6888V9.88486C6.38566 9.87723 6.3849 9.86979 6.38471 9.86216L12.0537 4.2042C12.3309 3.96865 12.7377 3.9696 13.0141 4.2063L18.6144 9.84347V14.0078C18.6144 14.4123 18.9423 14.7402 19.3469 14.7402C19.7512 14.7402 20.0793 14.4123 20.0793 14.0078V11.318L20.6677 11.9105C20.8109 12.0545 20.999 12.1266 21.1873 12.1266C21.374 12.1266 21.5607 12.0558 21.7036 11.9139C21.9904 11.6287 21.992 11.1649 21.707 10.878V10.878Z" fill="white"/>
+                    <defs>
+                    <linearGradient id="paint0_linear" x1="0" y1="12.5" x2="25" y2="12.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#00F1FF"/>
+                    <stop offset="0.231" stop-color="#00D8FF"/>
+                    <stop offset="0.5138" stop-color="#00C0FF"/>
+                    <stop offset="0.7773" stop-color="#00B2FF"/>
+                    <stop offset="1" stop-color="#00ADFF"/>
+                    </linearGradient>
+                    </defs>
+                  </svg>
+                </Grid>
+              </Link>
+            </Tooltip>
             <Tooltip title="Symptoms" aria-label="Symptoms" placement="bottom" arrow>
               <Link to="/symptoms">
                 <Grid item className={isHover && menuItemId === 1 ? classes.hoverClass : classes.menuMargin} onMouseEnter={() => toggleHover(1)} onMouseLeave={() => toggleHover(1)}>
@@ -89,16 +160,35 @@ export default function Header() {
                 </Grid>
               </Link>
             </Tooltip>
-            <Tooltip title="FAQ" aria-label="FAQ" placement="bottom" arrow>
+            {/* <Tooltip title="FAQ" aria-label="FAQ" placement="bottom" arrow>
               <Link to="/faq">
                 <Grid item className={isHover && menuItemId === 3 ? classes.hoverClass : classes.menuMargin} onMouseEnter={() => toggleHover(3)} onMouseLeave={() => toggleHover(3)}>
                   <svg enableBackground="new 0 0 58 58" height="25" viewBox="0 0 58 58" width="25" xmlns="http://www.w3.org/2000/svg"><path d="m26.64.094c-13.918 1.1-25.241 12.274-26.515 26.177-.635 6.928 1.176 13.404 4.659 18.681l-4.069 11.098c-.288.787.46 1.558 1.255 1.293l11.525-3.842c5.263 3.337 11.667 5.036 18.503 4.347 13.793-1.389 24.814-12.666 25.908-26.485 1.416-17.875-13.391-32.683-31.266-31.269z" fill="#fc3952" /><path d="m29 45c-1.104 0-2-.896-2-2v-3c0-1.104.896-2 2-2s2 .896 2 2v3c0 1.104-.896 2-2 2z" fill="#fff" /><path d="m29 34.03c-1.104 0-2-.896-2-2v-2.03c0-2.842 1.354-5.87 3.623-7.333.877-.565 1.391-1.525 1.377-2.567-.022-1.601-1.431-3.079-2.956-3.1-.013 0-.026 0-.039 0-.751 0-1.474.306-2.039.863-.614.605-.966 1.436-.966 2.281 0 1.104-.896 2-2 2s-2-.896-2-2c0-1.908.786-3.777 2.157-5.128 1.32-1.303 3.038-2.016 4.846-2.016h.096c3.687.052 6.847 3.277 6.9 7.044.034 2.429-1.166 4.666-3.208 5.984-1.105.713-1.791 2.517-1.791 3.972v2.03c0 1.104-.896 2-2 2z" fill="#fff" /><path d="m29 55c-.552 0-1-.448-1-1s.448-1 1-1c13.234 0 24-10.767 24-24s-10.766-24-24-24-24 10.767-24 24c0 .552-.448 1-1 1s-1-.448-1-1c0-14.336 11.664-26 26-26s26 11.664 26 26-11.664 26-26 26z" fill="#d5354e" /></svg>
                 </Grid>
               </Link>
-            </Tooltip>
+            </Tooltip> */}
           </Grid>
           <Grid item className="nav-xs-menu">
-            M
+            <React.Fragment key='top'>
+              <Button onClick={toggleDrawer('top', true)}>
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0)">
+              <path d="M23.3975 4.48716H1.60259C0.717285 4.48716 0 3.76988 0 2.88462C0 1.99937 0.717285 1.28204 1.60259 1.28204H23.3975C24.2827 1.28204 25 1.99932 25 2.88462C25 3.76993 24.2827 4.48716 23.3975 4.48716Z" fill="#FF485A"/>
+              <path d="M14.4231 14.1026H1.60259C0.717285 14.1026 0 13.3853 0 12.5C0 11.6147 0.717285 10.8974 1.60259 10.8974H14.4231C15.3083 10.8974 16.0257 11.6147 16.0257 12.5C16.0257 13.3853 15.3083 14.1026 14.4231 14.1026Z" fill="#FF485A"/>
+              <path d="M23.3975 14.1026H20.8334C19.9482 14.1026 19.2308 13.3853 19.2308 12.5C19.2308 11.6147 19.9481 10.8974 20.8334 10.8974H23.3975C24.2828 10.8974 25.0001 11.6147 25.0001 12.5C25.0001 13.3853 24.2828 14.1026 23.3975 14.1026Z" fill="#FFBBC0"/>
+              <path d="M23.3975 23.718H1.60259C0.717285 23.718 0 23.0006 0 22.1154C0 21.2301 0.717285 20.5128 1.60259 20.5128H23.3975C24.2827 20.5128 25 21.2301 25 22.1154C25 23.0006 24.2827 23.718 23.3975 23.718Z" fill="#FF485A"/>
+              </g>
+              <defs>
+              <clipPath id="clip0">
+              <rect width="25" height="25" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg>
+              </Button>
+              <Drawer anchor='top' open={state['top']} onClose={toggleDrawer('top', false)}>
+                {list('top')}
+              </Drawer>
+            </React.Fragment>
           </Grid>
         </Grid>
       </Grid >
