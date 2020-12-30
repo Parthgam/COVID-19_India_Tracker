@@ -30,7 +30,8 @@ const useStyles = makeStyles({
   },
   headerClass: {
     backgroundColor: '#fff',
-    borderBottom: '2px solid #fff',
+    // borderBottom: '2px solid #fff',
+    borderBottom: '1px solid #f4f4f4'
   },
   logoText: {
     fontSize: '16px',
