@@ -17,9 +17,18 @@ tr:nth-child(odd) {
   background-color: rgb(234, 237, 237, 0.7);
 }
 tr:hover {
+  cursor: pointer;
   background-color: rgb(234, 237, 237, 1);
 }
-
+.selected-state {
+  background-color: #cdeac0 !important;
+}
+.info-text {
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #73d2de;
+}
 .cases-cell {
   text-align: right !important;
 }

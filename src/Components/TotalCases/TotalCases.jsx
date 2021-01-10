@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
-import './TotalCases.css'
+import './TotalCases.css';
+import Moment from 'moment';
 
 const useStyles = makeStyles({
   root: {
@@ -94,6 +95,10 @@ const useStyles = makeStyles({
 
 });
 
+const formatDate = (date) => {
+  return Moment(date).format('MMMM Do YYYY, h:mm:ss a');
+}
+
 function TotalCases(props) {
   var classes = useStyles();
   return (
@@ -114,7 +119,7 @@ function TotalCases(props) {
                     alignItems="center">
                     <div className="live-icon"></div>&nbsp;&nbsp;
                 &nbsp;
-                as on: {props.TotalData.lastupdatedtime}
+                as on: {Moment().format('lll')}
                   </Grid>
                 </Grid>
               </Grid>
@@ -213,7 +218,7 @@ function TotalCases(props) {
               <Skeleton animation="wave" variant="rect" height="133px" />
             </Grid>
           }
-          <Grid item sm={4} md={3} xs={12} >
+          <Grid item sm={4} md={3} xs={10} >
             <Grid container direction="row" justify="center" alignItems="center">
               <Grid item xs={12} md={9}>
                 <Grid container direction="row" justify="center" alignItems="center">

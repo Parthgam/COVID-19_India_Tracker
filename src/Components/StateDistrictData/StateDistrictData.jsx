@@ -7,6 +7,8 @@ import BarChart from '../BarChart/BarChart'
 import Skeleton from '@material-ui/lab/Skeleton';
 import * as Constants from '../../constants'
 import { useHistory } from 'react-router-dom';
+import Moment from 'moment';
+
 
 export default function StateDistrictData(props) {
 
@@ -34,6 +36,7 @@ export default function StateDistrictData(props) {
     const [activeClass, setActiveClass] = useState(0);
     const [selectedTotalTested, setSelectedTotalTested] = useState(-1);
     const [selDropdownValue, setSelDropdownValue] = useState(props.match.params.state);
+    const [lastUpdatedDate, setLastUpdatedDate] = useState();
 
     const splitDateFormatter = (date) => {
         var arr = date.split('-', 2);
@@ -71,6 +74,8 @@ export default function StateDistrictData(props) {
         })
             .then((response) => {
                 setStatesDaily(response.data.states_daily);
+                if(response.data.states_daily.length)
+                    setLastUpdatedDate(response.data.states_daily[response.data.states_daily.length - 1]['dateymd'])
             })
             .catch((error) => {
                 console.log(error);
@@ -157,7 +162,6 @@ export default function StateDistrictData(props) {
             setDailyDeath(daily_dec.reverse())
             setDailyActive(daily_act.reverse())
         }
-
     }, [selectedStateName, props.match.params.state])
 
     useEffect(() => {
@@ -193,10 +197,13 @@ export default function StateDistrictData(props) {
             })
             var sum = 0, temp = 0;
             for (var i = 0; i < 6; i++) {
-                sum += parseInt(statesDaily[length - 2 - temp][props.match.params.statecode])
+                var stateCode = props.match.params.statecode;
+                stateCode = stateCode.toLowerCase();
+                sum += parseInt(statesDaily[length - 2 - temp][stateCode])
                 temp += 3;
             }
             setWeekBeforeTotal(sum);
+            console.log(sum)
         }
     }, [statesDaily, props.match.params.state])
 
@@ -273,14 +280,14 @@ export default function StateDistrictData(props) {
                                                 Object.keys(Constants.STATE_CODES).map((key, index) => <option key={Constants.STATE_CODES[key]} value={Constants.STATE_CODES[key]}>{Constants.STATE_CODES[key]}</option>)
                                             }
                                         </select> */}
-                                        { selDropdownValue}
+                                        {selDropdownValue}
                                     </Grid>
                                     <Grid item xs={10} md={12} className="border">
                                         <Grid direction="column" justify="center" alignItems="center" className="box-left">
                                             <Grid xs={12} md={12} className="box-left-statename">
                                                 {props.match.params.state !== undefined ? props.match.params.state : null}
                                             </Grid>
-                                            <Grid xs={12} md={12} className="box-left-time">Last Updated On 15 May, 22:15 IST</Grid>
+                                            <Grid xs={12} md={12} className="box-left-time">Last Updated On {Moment(lastUpdatedDate).format('lll')}</Grid>
                                         </Grid>
                                     </Grid>
                                     {/* <Grid item xs={10} md={5} className="active border">

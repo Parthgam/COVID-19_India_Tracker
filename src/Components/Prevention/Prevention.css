@@ -75,9 +75,10 @@
 @media only screen and (max-width: 750px) {
   .paperClass {
     padding: 0 !important;
-  }
-  .MuiPaper-outlined {
     border: 0px solid rgba(163, 92, 92, 0.12) !important;
   }
+  /* .MuiPaper-outlined {
+    border: 0px solid rgba(163, 92, 92, 0.12) !important;
+  } */
 }
 
